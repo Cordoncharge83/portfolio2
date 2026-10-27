@@ -1,0 +1,104 @@
+/* Long-form case-study text, rendered from Markdown. */
+.prose-journal {
+  max-width: 65ch;
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+.prose-journal > * + * {
+  margin-top: 1em;
+}
+.prose-journal h2 {
+  margin-top: 2.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+  font-size: 1.6rem;
+  line-height: 1.25;
+}
+.prose-journal h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.prose-journal h2 + * {
+  margin-top: 0.75rem;
+}
+.prose-journal ul,
+.prose-journal ol {
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+}
+.prose-journal ul {
+  list-style: disc;
+}
+.prose-journal ol {
+  list-style: decimal;
+}
+.prose-journal li::marker {
+  color: var(--amber);
+}
+.prose-journal strong {
+  font-weight: 700;
+}
+.prose-journal em {
+  font-style: italic;
+}
+.prose-journal code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+/* Sections render through a display:contents wrapper; space its children like direct ones. */
+.prose-journal > .contents > * + * {
+  margin-top: 1em;
+}
+.prose-journal > .contents > h2 {
+  margin-top: 2.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+.prose-journal > .contents > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+.prose-journal > .contents > h2 + * {
+  margin-top: 0.75rem;
+}
+
+.gallery {
+  display: grid;
+  gap: 1.75rem;
+  margin-top: 2.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+.gallery figure {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+}
+.gallery-frame {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  box-shadow: var(--shadow);
+  aspect-ratio: 16 / 9;
+  max-width: 100%;
+}
+.gallery-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery figcaption {
+  font-size: 1rem;
+  color: var(--muted);
+}
+.prose-journal > .draft-note {
+  margin-bottom: 1.75rem;
+}

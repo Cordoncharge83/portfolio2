@@ -1,0 +1,17 @@
+{
+  "$comment": "Raw 2560x1440 captures (1280x720 @2x) -> public/shots/<slug>/<name>-{960,1920}.webp. Run: node scripts/optimize-shots.mjs <rawDir>",
+  "shots": [
+    { "slug": "smosh-story-finder", "name": "home-light", "raw": "smosh-story-finder/home-light.png" },
+    { "slug": "smosh-story-finder", "name": "home-dark", "raw": "smosh-story-finder/home-dark.png" },
+    { "slug": "smosh-story-finder", "name": "filtered-light", "raw": "smosh-story-finder/filtered-light.png" },
+    { "slug": "smosh-story-finder", "name": "filtered-dark", "raw": "smosh-story-finder/filtered-dark.png" },
+    { "slug": "smosh-story-finder", "name": "flipped-light", "raw": "smosh-story-finder/card-flipped-light.png" },
+    { "slug": "smosh-story-finder", "name": "flipped-dark", "raw": "smosh-story-finder/card-flipped-dark.png" },
+    { "slug": "bargainy", "name": "home", "raw": "bargainy/home-light.png" },
+    { "slug": "bargainy", "name": "practice", "raw": "bargainy/practice-light.png" },
+    { "slug": "bargainy", "name": "report", "raw": "bargainy/report-light.png" },
+    { "slug": "comp-atlas", "name": "team-prep", "raw": "comp-atlas/team-prep-overview-dark.png" },
+    { "slug": "comp-atlas", "name": "finder", "raw": "comp-atlas/composition-lab-finder-dark.png" },
+    { "slug": "comp-atlas", "name": "core", "raw": "comp-atlas/composition-lab-core-dark.png" }
+  ]
+}

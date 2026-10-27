@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mouadh's portfolio
 
-## Getting Started
+The classic, quick-read companion to the village game. The same projects and experience are here as plain, scannable pages, in the game's day/dusk "traveller's journal" style.
 
-First, run the development server:
+Next.js 16 (App Router, static export) · Tailwind CSS 4 · Cloudflare Workers static assets.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Commands
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Local dev server on http://localhost:3000 |
+| `npm run build` | Static export to `out/` |
+| `npm run check:out` | Checks the export (required files, internal links) and lists content still to fill in |
+| `npm run preview` | Serves `out/` with Wrangler on :8787, with the same routing as production (404 page, `_headers`) |
+| `npm run test:e2e` | Playwright: routes, theme, filter, 404, OG images, axe WCAG 2.2 AA checks (desktop + phone) |
+| `npm run verify` | lint + typecheck + build + check:out + e2e |
+| `npm run screens` | Full-page screenshots of key routes (desktop/phone × day/dusk) into `screenshots/` |
+| `npm run deploy` | Build and `wrangler deploy` (needs `wrangler login`) |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Restart `npm run preview` after each build: Wrangler does not pick up a rebuilt `out/` while running.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Editing content
 
-## Learn More
+Everything visitors read lives in `content/`:
 
-To learn more about Next.js, take a look at the following resources:
+- `content/projects/<slug>.md`: one file per project. YAML frontmatter holds the structured fields (status, stack, links, cover, gallery…). The body's `## Heading` blocks become the case-study sections.
+  - `tier: featured` gets a card and a `/projects/<slug>` page.
+  - `tier: compact` gets a small card under "Earlier games".
+- `content/journal/<slug>.md`: experience, education and leadership (`kind: work | education | leadership`), each with its own `/experience/<slug>` page.
+- `content/profile.ts`: headline, intro, email, CV link, socials.
+- `content/skills.ts`: skill groups, languages and other tools.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`lib/content.ts` validates the frontmatter at build time with zod, so a typo fails the build and names the file and field.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Conventions:
 
-## Deploy on Vercel
+- A link with `href: null` is never rendered. Use it for URLs you don't have yet. `npm run check:out` lists them.
+- `draft: true` shows a "draft write-up" note on the page. The three game entries are drafts assembled from their repos; review them and remove the flag.
+- `/content.json` publishes all content as JSON (CORS-enabled) so the village game can reuse it, keyed by `slug`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Screenshots
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Projects without a `cover` show an illustrated thumbnail (`components/thumbs/Thumb.tsx`).
+
+To add real screenshots:
+
+1. Capture at 1280×720 @2x.
+2. Add each one to `scripts/shots.config.json`.
+3. Run `node scripts/optimize-shots.mjs <rawDir>`, which writes `public/shots/<slug>/<name>-{960,1920}.webp`.
+4. Reference the files from the entry's `cover` / `gallery`.
+
+Dusk variants (`darkSrc`, `darkCardSrc`) are shown automatically in the dark theme.
+
+## Site settings
+
+`lib/site.ts` holds the canonical URL and the game URL. The domains aren't decided yet, so both can be set at build time:
+
+- `NEXT_PUBLIC_SITE_URL` (default `https://moudka.com`) is used for canonical links, the sitemap and OG tags.
+- `NEXT_PUBLIC_VILLAGE_URL` is the game. Until it is set, the banner reads "The village is still being built".
+
+## Theme
+
+- Day (parchment) and dusk (forest-night) tokens live in `styles/tokens.css`. Bare `:root` holds day; dusk applies via `prefers-color-scheme` or `data-theme="dark"`.
+- `components/site/ThemeScript.tsx` applies a stored choice before first paint.
+- The toggle clears the stored choice when it matches the OS again.
+- Tailwind's `dark:` variant covers both cases (see `app/globals.css`).
+
+## Deploying to Cloudflare
+
+The site is a pure static export, served by Workers static assets. There is no Worker script and no OpenNext. Config: `wrangler.jsonc` (assets from `./out`, `404-page` handling) and `public/_headers`.
+
+1. Push this repo to GitHub.
+2. In the Cloudflare dashboard, go to **Workers & Pages → Create application → Import a repository** and pick it.
+3. Fill in the build settings:
+   - Project name: `portfolio` (must match `name` in `wrangler.jsonc`)
+   - Build command: `npm run build`
+   - Deploy command: `npx wrangler deploy`
+   - Optionally add `NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_VILLAGE_URL` as build variables.
+4. Deploy and check `portfolio.<account>.workers.dev`. Pull requests get preview URLs.
+5. Once the domain is chosen, add it under **Worker → Settings → Domains & Routes → Custom domain**, or add `routes` to `wrangler.jsonc`.

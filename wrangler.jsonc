@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Must match the Worker name in the Cloudflare dashboard when using Workers Builds.
+  "name": "portfolio",
+  "compatibility_date": "2026-10-27",
+  // Pure static site: no Worker script, Cloudflare serves the exported files directly.
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+  // Add custom domains once decided, e.g.
+  // "routes": [{ "pattern": "moudka.com", "custom_domain": true }]
+}

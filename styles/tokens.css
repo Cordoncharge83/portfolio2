@@ -1,0 +1,111 @@
+/*
+ * Village Journal tokens. Day = parchment, Dusk = forest-night.
+ * Bare :root holds the day palette; the two dusk blocks redefine tokens only,
+ * so the system preference and an explicit data-theme both work.
+ */
+:root {
+  --bg: #f4ecdd;
+  --surface: #fbf6ec;
+  --ink: #2a2620;
+  --muted: #6b5e4e;
+  --rule: #c9b596;
+  --timber: #7a5a3c;
+  --forest: #2f4a3a;
+  --forest-ink: #2f4a3a;
+  --on-forest: #f4ecdd;
+  --clay: #a04e2e;
+  --clay-fill: #b85c38;
+  --amber: #e0a04a;
+  --focus: #9a5f12;
+  --tag-bg: #a04e2e;
+  --tag-fg: #fbf6ec;
+  --chip-bg: rgb(47 74 58 / 0.1);
+  --shadow: 0 1px 0 rgb(122 90 60 / 0.18), 0 10px 24px -14px rgb(60 40 20 / 0.35);
+
+  /* scene */
+  --sky-top: #e9c9a0;
+  --sky-mid: #f0d9b5;
+  --sky-low: #f6e7cc;
+  --hill-far: #9daa8c;
+  --hill-mid: #6f8668;
+  --hill-near: #3f5a47;
+  --wall: #8a6a4a;
+  --window: #f3d69a;
+  --window-glow: 0;
+  --grain-opacity: 0.35;
+
+  /* fixed banner palette (same in both themes: it is a dusk scene) */
+  --banner-bg: #2f4a3a;
+  --banner-ink: #f1e6d2;
+  --banner-muted: #d6c9b1;
+  --lamp: #f0b25a;
+  --lamp-ink: #1b1a14;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141b17;
+    --surface: #1b241f;
+    --ink: #f1e6d2;
+    --muted: #b5a68e;
+    --rule: #3a4136;
+    --timber: #a98563;
+    --forest: #8fb89a;
+    --forest-ink: #a9cdb2;
+    --on-forest: #141b17;
+    --clay: #e08a62;
+    --clay-fill: #c7673f;
+    --amber: #f0b25a;
+    --focus: #f0b25a;
+    --tag-bg: #e08a62;
+    --tag-fg: #1b1a14;
+    --chip-bg: rgb(143 184 154 / 0.12);
+    --shadow: 0 1px 0 rgb(0 0 0 / 0.4), 0 14px 30px -16px rgb(0 0 0 / 0.8);
+    --sky-top: #1d2638;
+    --sky-mid: #4a3647;
+    --sky-low: #c7764a;
+    --hill-far: #2e3b3a;
+    --hill-mid: #22302a;
+    --hill-near: #151e19;
+    --wall: #2a2520;
+    --window: #ffc46b;
+    --window-glow: 1;
+    --grain-opacity: 0.18;
+    --banner-bg: #22302a;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #141b17;
+  --surface: #1b241f;
+  --ink: #f1e6d2;
+  --muted: #b5a68e;
+  --rule: #3a4136;
+  --timber: #a98563;
+  --forest: #8fb89a;
+  --forest-ink: #a9cdb2;
+  --on-forest: #141b17;
+  --clay: #e08a62;
+  --clay-fill: #c7673f;
+  --amber: #f0b25a;
+  --focus: #f0b25a;
+  --tag-bg: #e08a62;
+  --tag-fg: #1b1a14;
+  --chip-bg: rgb(143 184 154 / 0.12);
+  --shadow: 0 1px 0 rgb(0 0 0 / 0.4), 0 14px 30px -16px rgb(0 0 0 / 0.8);
+  --sky-top: #1d2638;
+  --sky-mid: #4a3647;
+  --sky-low: #c7764a;
+  --hill-far: #2e3b3a;
+  --hill-mid: #22302a;
+  --hill-near: #151e19;
+  --wall: #2a2520;
+  --window: #ffc46b;
+  --window-glow: 1;
+  --grain-opacity: 0.18;
+  --banner-bg: #22302a;
+  color-scheme: dark;
+}
