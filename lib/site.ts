@@ -11,3 +11,6 @@ export const site = {
     url: (process.env.NEXT_PUBLIC_VILLAGE_URL ?? null) as string | null,
   },
 } as const;
+
+/** Fields every page's openGraph must repeat, because Next replaces (not merges) nested openGraph objects. */
+export const baseOpenGraph = { siteName: site.name, locale: "en_GB" } as const;

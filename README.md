@@ -56,7 +56,7 @@ Dusk variants (`darkSrc`, `darkCardSrc`) are shown automatically in the dark the
 `lib/site.ts` holds the canonical URL and the game URL. The domains aren't decided yet, so both can be set at build time:
 
 - `NEXT_PUBLIC_SITE_URL` (default `https://moudka.com`) is used for canonical links, the sitemap and OG tags.
-- `NEXT_PUBLIC_VILLAGE_URL` is the game. Until it is set, the banner reads "The village is still being built".
+- `NEXT_PUBLIC_VILLAGE_URL` is the game. Until it is set, the header link is hidden and the intro, work note and banner say the village is on its way.
 
 ## Theme
 

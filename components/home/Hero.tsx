@@ -1,6 +1,7 @@
 import { profile } from "@/content/profile";
 import { renderInline } from "@/lib/content";
 import { DuskVillage } from "@/components/scene/DuskVillage";
+import { site } from "@/lib/site";
 
 export function Hero() {
   return (
@@ -13,9 +14,8 @@ export function Hero() {
           dangerouslySetInnerHTML={{ __html: renderInline(profile.headline) }}
         />
         <div className="grid gap-3 text-[1.25rem] text-muted max-w-[36rem]">
-          {profile.lede.map((p) => (
-            <p key={p}>{p}</p>
-          ))}
+          <p>{profile.lede}</p>
+          <p>{site.village.url ? profile.villageLine.live : profile.villageLine.soon}</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <a className="btn btn-primary" href="#work">

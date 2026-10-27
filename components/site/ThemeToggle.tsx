@@ -15,6 +15,7 @@ function toggleTheme() {
   }
   if (matchesSystem) delete root.dataset.theme;
   else root.dataset.theme = next;
+  (window as Window & { __syncThemeColor?: () => void }).__syncThemeColor?.();
 }
 
 export function ThemeToggle() {

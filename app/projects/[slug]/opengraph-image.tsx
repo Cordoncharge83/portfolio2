@@ -2,7 +2,7 @@ import { getFeaturedProjects, getProject } from "@/lib/content";
 import { ogContentType, ogSize, renderOgImage } from "@/lib/og";
 
 export const dynamicParams = false;
-export const alt = "Project case study";
+export const alt = "Project case study from Mouadh's portfolio, over a dusk village scene";
 export const size = ogSize;
 export const contentType = ogContentType;
 

@@ -16,9 +16,11 @@ export function SiteHeader() {
         <Link href="/#contact">Contact</Link>
       </nav>
       <div className="header-tools">
-        <a className="village-link" href={site.village.url ?? "/#village"}>
-          Explore the village →
-        </a>
+        {site.village.url && (
+          <a className="village-link" href={site.village.url}>
+            Explore the village →
+          </a>
+        )}
         <ThemeToggle />
       </div>
     </header>

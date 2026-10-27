@@ -4,7 +4,7 @@ import path from "node:path";
 
 const out = path.resolve("out");
 const errors = [];
-const exists = (p) => fs.existsSync(path.join(out, p));
+const exists = (p) => fs.statSync(path.join(out, p), { throwIfNoEntry: false })?.isFile() ?? false;
 
 const content = JSON.parse(fs.readFileSync(path.join(out, "content.json"), "utf8"));
 const required = ["index.html", "404.html", "sitemap.xml", "robots.txt", "content.json", "opengraph-image", "_headers"];

@@ -6,6 +6,7 @@ import { ProjectMedia } from "@/components/entry/ProjectMedia";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Tags } from "@/components/ui/Tags";
 import { Gallery } from "@/components/entry/Gallery";
+import { baseOpenGraph } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -20,7 +21,13 @@ export async function generateMetadata({ params }: PageProps<"/projects/[slug]">
     title: project.title,
     description: project.summary,
     alternates: { canonical: `/projects/${project.slug}` },
-    openGraph: { type: "article", title: project.title, description: project.summary },
+    openGraph: {
+      ...baseOpenGraph,
+      type: "article",
+      url: `/projects/${project.slug}`,
+      title: project.title,
+      description: project.summary,
+    },
   };
 }
 

@@ -1,9 +1,16 @@
 import type { Project } from "@/lib/content";
+import { srcSetFor } from "@/lib/images";
 import { Thumb } from "@/components/thumbs/Thumb";
+
+const sizes = {
+  card: "(min-width: 68rem) 33rem, (min-width: 52rem) 50vw, 100vw",
+  hero: "(min-width: 68rem) 66rem, 100vw",
+};
 
 /**
  * Screenshot when one exists, otherwise the illustrated thumbnail. When a dusk
- * variant exists both are rendered and CSS shows the one matching the theme.
+ * variant exists both are rendered and CSS shows the one matching the theme;
+ * the dusk one is lazy so a hidden (display: none) copy is never downloaded.
  * Plain <img>: the static export serves pre-sized WebP files, no optimizer.
  */
 export function ProjectMedia({ project, variant }: { project: Project; variant: "card" | "hero" }) {
@@ -13,21 +20,27 @@ export function ProjectMedia({ project, variant }: { project: Project; variant: 
   const card = variant === "card";
   const light = (card && cover.cardSrc) || cover.src;
   const dark = (card && cover.darkCardSrc) || cover.darkSrc;
-  const common = {
-    width: cover.width,
-    height: cover.height,
-    decoding: "async" as const,
-    loading: card ? ("lazy" as const) : ("eager" as const),
-    fetchPriority: card ? undefined : ("high" as const),
-  };
+  const alt = cover.alt;
+  const base = { width: cover.width, height: cover.height, decoding: "async" as const };
 
   /* eslint-disable @next/next/no-img-element */
-  if (!dark) return <img src={light} alt={cover.alt} {...common} />;
-  return (
+  if (card) {
+    return dark ? (
+      <>
+        <img src={light} alt={alt} {...base} loading="lazy" className="dark:hidden" />
+        <img src={dark} alt={alt} {...base} loading="lazy" className="hidden dark:block" />
+      </>
+    ) : (
+      <img src={light} alt={alt} {...base} loading="lazy" />
+    );
+  }
+  return dark ? (
     <>
-      <img src={light} alt={cover.alt} className="dark:hidden" {...common} />
-      <img src={dark} alt={cover.alt} className="hidden dark:block" {...common} />
+      <img src={light} srcSet={srcSetFor(light)} sizes={sizes.hero} alt={alt} {...base} className="dark:hidden" />
+      <img src={dark} srcSet={srcSetFor(dark)} sizes={sizes.hero} alt={alt} {...base} loading="lazy" className="hidden dark:block" />
     </>
+  ) : (
+    <img src={light} srcSet={srcSetFor(light)} sizes={sizes.hero} alt={alt} {...base} />
   );
   /* eslint-enable @next/next/no-img-element */
 }

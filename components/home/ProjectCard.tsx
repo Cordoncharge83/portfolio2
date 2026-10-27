@@ -19,7 +19,7 @@ export function ProjectCard({ project }: { project: Project }) {
       </div>
       <div className="card-body">
         <h3>
-          <Link href={`/projects/${project.slug}`} className="card-title-link">
+          <Link href={`/projects/${project.slug}`} className="card-title-link" prefetch={false}>
             {project.title}
           </Link>
         </h3>

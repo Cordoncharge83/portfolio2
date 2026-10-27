@@ -127,13 +127,12 @@ body::after {
   height: 16px;
 }
 @media (max-width: 640px) {
-  .site-nav {
-    order: 3;
-    width: 100%;
-    margin-inline-start: 0;
+  /* Wordmark on its own row; nav then tools follow in source order. */
+  .wordmark {
+    flex-basis: 100%;
   }
-  .header-tools {
-    margin-inline-start: auto;
+  .site-nav {
+    margin-inline-start: 0;
   }
 }
 
@@ -291,6 +290,14 @@ body::after {
   color: var(--bg);
   background: var(--ink);
   border-color: var(--ink);
+}
+@media (forced-colors: active) {
+  .filter[aria-pressed="true"] {
+    forced-color-adjust: none;
+    color: SelectedItemText;
+    background: SelectedItem;
+    border-color: SelectedItem;
+  }
 }
 .cards {
   display: grid;

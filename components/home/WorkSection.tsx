@@ -3,6 +3,7 @@ import { Chapter } from "@/components/ui/Chapter";
 import { ProjectCard } from "./ProjectCard";
 import { CompactCard } from "./CompactCard";
 import { FilterableWork } from "./FilterableWork";
+import { site } from "@/lib/site";
 
 export function WorkSection() {
   const featured = getFeaturedProjects().map((p) => ({
@@ -16,7 +17,7 @@ export function WorkSection() {
     node: <CompactCard project={p} />,
   }));
   return (
-    <Chapter id="work" numeral="I." title="Selected work" note="each one has its building in the village">
+    <Chapter id="work" numeral="I." title="Selected work" note={site.village.url ? "each one has its building in the village" : "each one will get its building in the village"}>
       <FilterableWork featured={featured} compact={compact} />
     </Chapter>
   );

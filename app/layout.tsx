@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { alegreya, alegreyaSC, caveat, fraunces } from "./fonts";
-import { site } from "@/lib/site";
+import { baseOpenGraph, site } from "@/lib/site";
 import { ThemeScript } from "@/components/site/ThemeScript";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: { default: `${site.name} · Software engineer & game developer`, template: `%s · ${site.name}` },
   description,
-  openGraph: { siteName: site.name, locale: "en", type: "website", description },
+  openGraph: { ...baseOpenGraph, type: "website", url: "/", description },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },
 };

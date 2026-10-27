@@ -43,3 +43,13 @@ test.describe("theme", () => {
     expect(name).toBe("none");
   });
 });
+
+test("an explicit choice also sets the browser theme-color", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  await page.getByRole("button", { name: /switch to dusk theme/i }).click();
+  const colors = await page.locator('meta[name="theme-color"]').evaluateAll((ms) =>
+    ms.map((m) => [m.getAttribute("media"), (m as HTMLMetaElement).content]),
+  );
+  expect(colors.every(([media, c]) => media === null && c === "#141b17")).toBe(true);
+});

@@ -10,8 +10,9 @@ export function VillageBanner({ headingLevel = "h2" }: { headingLevel?: "h2" | "
       <div className="grid gap-1.5 min-w-0">
         <Heading id="village-title">Prefer to wander?</Heading>
         <p>
-          The same projects and stories live in a small woodland village. Walk in, open the doors, read the
-          journal.
+          {url
+            ? "The same projects and stories live in a small woodland village. Walk in, open the doors, read the journal."
+            : "The same projects and stories are becoming a small woodland village, where you walk in, open the doors and read the journal."}
         </p>
       </div>
       {url ? (

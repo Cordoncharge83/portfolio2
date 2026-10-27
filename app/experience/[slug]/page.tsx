@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getJournal, getJournalEntry } from "@/lib/content";
 import { EntryLayout } from "@/components/entry/EntryLayout";
 import { Tags } from "@/components/ui/Tags";
+import { baseOpenGraph } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<"/experience/[slug]
     title,
     description: entry.summary,
     alternates: { canonical: `/experience/${entry.slug}` },
-    openGraph: { type: "article", title, description: entry.summary },
+    openGraph: { ...baseOpenGraph, type: "article", url: `/experience/${entry.slug}`, title, description: entry.summary },
   };
 }
 

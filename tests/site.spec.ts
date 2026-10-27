@@ -45,3 +45,18 @@ test("Open Graph images are served as PNG", async ({ request }) => {
     expect(res.headers()["content-type"]).toBe("image/png");
   }
 });
+
+test("project pages keep site-wide Open Graph fields", async ({ request }) => {
+  const html = await (await request.get("/projects/bargainy")).text();
+  expect(html).toContain('property="og:site_name" content="Mouadh"');
+  expect(html).toContain('property="og:url"');
+});
+
+test("the home page does not download full-size case-study images", async ({ page }) => {
+  const big: string[] = [];
+  page.on("request", (r) => r.url().endsWith("-1920.webp") && big.push(r.url()));
+  await page.goto("/");
+  await page.mouse.wheel(0, 4000);
+  await page.waitForLoadState("networkidle");
+  expect(big).toEqual([]);
+});
