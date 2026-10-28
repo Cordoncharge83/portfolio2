@@ -56,7 +56,7 @@ Dusk variants (`darkSrc`, `darkCardSrc`) are shown automatically in the dark the
 `lib/site.ts` holds the canonical URL and the game URL. The domains aren't decided yet, so both can be set at build time:
 
 - `NEXT_PUBLIC_SITE_URL` (default `https://portfolio.moudka.com`) is used for canonical links, the sitemap and OG tags.
-- `NEXT_PUBLIC_VILLAGE_URL` is the game. Until it is set, the header link is hidden and the intro, work note and banner say the village is on its way.
+- `NEXT_PUBLIC_VILLAGE_URL` is the game. Until it is set, the header link is hidden and the intro, work note and banner say the village is on its way. The plan is `/village` (see below); set it only once the game is deployed, otherwise `/village` shows this site's 404 page.
 
 ## Theme
 
@@ -78,3 +78,14 @@ The site is a pure static export, served by Workers static assets. There is no W
    - Optionally add `NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_VILLAGE_URL` as build variables.
 4. Deploy and check `portfolio.<account>.workers.dev`. Pull requests get preview URLs.
 5. Once the domain is chosen, add it under **Worker → Settings → Domains & Routes → Custom domain**, or add `routes` to `wrangler.jsonc`.
+
+## The village game at `/village`
+
+The game is a separate repo and Worker, mounted on this site's domain under `/village`:
+
+- **Game Worker:** in its `wrangler.jsonc`, a route instead of a custom domain:
+  `"routes": [{ "pattern": "portfolio.moudka.com/village*", "zone_name": "moudka.com" }]`.
+  Routes run before this site's custom domain, so `/village…` reaches the game and everything else reaches the portfolio.
+- **Game build:** everything must live under `/village/`. Use `base: "/village/"` for Vite, or relative asset paths in an engine's web export. Put the files in a `village/` folder inside the asset directory (e.g. `dist/village/index.html` with `assets.directory: "./dist"`).
+- **This site:** set the build variable `NEXT_PUBLIC_VILLAGE_URL=/village` once the game is live. `check:out` treats `/village` as served elsewhere.
+- **Shared origin:** the game can fetch `/content.json` directly. Both sites share `localStorage`, so prefix the game's keys (e.g. `village:`); the `theme` key is the site's day/dusk choice, if the game wants to follow it.

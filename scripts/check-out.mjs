@@ -14,8 +14,17 @@ for (const p of content.projects.filter((p) => p.tier === "featured")) {
 for (const e of content.journal) required.push(`experience/${e.slug}.html`, `experience/${e.slug}/opengraph-image`);
 for (const f of required) if (!exists(f)) errors.push(`missing out/${f}`);
 
+// Paths served by another Worker on the same domain (the village game at /village),
+// so they are not part of this export.
+const mountedElsewhere = new Set(["/village"]);
+const villageUrl = process.env.NEXT_PUBLIC_VILLAGE_URL;
+if (villageUrl?.startsWith("/")) mountedElsewhere.add(villageUrl.replace(/\/$/, ""));
+const isMountedElsewhere = (clean) =>
+  [...mountedElsewhere].some((m) => clean === m || clean.startsWith(`${m}/`));
+
 const resolves = (href) => {
   const clean = decodeURIComponent(href.split(/[?#]/)[0]);
+  if (isMountedElsewhere(clean.replace(/\/$/, ""))) return true;
   if (clean === "" || clean === "/") return exists("index.html");
   const rel = clean.replace(/^\//, "").replace(/\/$/, "");
   return exists(rel) || exists(`${rel}.html`) || exists(`${rel}/index.html`);
