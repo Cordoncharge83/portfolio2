@@ -22,7 +22,7 @@ export function Hero() {
             View work
           </a>
           {profile.cvUrl && (
-            <a className="btn btn-ghost" href={profile.cvUrl}>
+            <a className="btn btn-ghost" href={profile.cvUrl} download="Mouadh-Bondka-CV.pdf">
               Download CV
             </a>
           )}

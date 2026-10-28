@@ -18,7 +18,7 @@ export const profile = {
   },
   /** Fill these in to show them; null values are hidden. */
   email: "contact@moudka.com" as string | null,
-  cvUrl: null as string | null,
+  cvUrl: "/cv.pdf" as string | null,
   socials: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/mouadh-bondka-57870a28a/" },
     { label: "GitHub", href: "https://github.com/Cordoncharge83" },

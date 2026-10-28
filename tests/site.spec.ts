@@ -60,3 +60,14 @@ test("the home page does not download full-size case-study images", async ({ pag
   await page.waitForLoadState("networkidle");
   expect(big).toEqual([]);
 });
+
+test("the CV is served as a PDF, with /cv as a short link", async ({ page, request }) => {
+  const pdf = await request.get("/cv.pdf");
+  expect(pdf.status()).toBe(200);
+  expect(pdf.headers()["content-type"]).toBe("application/pdf");
+  const short = await request.get("/cv", { maxRedirects: 0 });
+  expect(short.status()).toBe(302);
+  expect(short.headers()["location"]).toMatch(/\/cv\.pdf$/);
+  await page.goto("/");
+  await expect(page.getByRole("link", { name: "Download CV" })).toHaveAttribute("href", "/cv.pdf");
+});

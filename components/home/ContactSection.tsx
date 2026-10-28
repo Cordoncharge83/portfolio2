@@ -27,7 +27,9 @@ export function ContactSection() {
           ))}
           {profile.cvUrl && (
             <li>
-              <a href={profile.cvUrl}>CV (PDF)</a>
+              <a href={profile.cvUrl} download="Mouadh-Bondka-CV.pdf">
+                CV (PDF)
+              </a>
             </li>
           )}
         </ul>
