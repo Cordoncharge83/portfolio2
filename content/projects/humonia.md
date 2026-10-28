@@ -16,7 +16,6 @@ stack: [Godot 3, GDScript, Dialogic]
 links:
   - { kind: repo, label: GitHub, href: "https://github.com/Cordoncharge83/Godotproject_Humonia" }
 thumb: island
-draft: true
 ---
 
 A 2D top-down game made by a team of five during the IMT 2024 intersemester. Our design document casts the player as a robot explorer visiting solarpunk towns. The playable level has villager dialogue through Dialogic, six items to collect and a hammer that repairs a hole in a bridge. Collecting all six items completes the quest and makes every villager cheer.

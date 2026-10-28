@@ -21,7 +21,6 @@ cover:
   alt: "CapsuleMonstersGX battle screen: the octagonal arena grid with capsules at both ends, the AP bar, and the unit panel for a level 1 monster."
   width: 727
   height: 377
-draft: true
 ---
 
 ## The idea
@@ -50,4 +49,4 @@ Unity 6 with the 2D Universal Render Pipeline, and Tilemaps for the grid, blocki
 
 ## Status
 
-In development. The current goal is a polished vertical slice battle, Jaden vs Zane, with the focus on balancing and combat feel rather than content. Beyond the slice, the README plans more GX-era monsters and characters, more fusion variety, capsule and deck management, and a story and progression structure.
+In development. The current goal is a polished vertical slice battle, Jaden vs Zane, with the focus on balancing and combat feel rather than content. Next on the list: more GX-era monsters and characters, more fusion variety, capsule and deck management, and a story and progression structure.

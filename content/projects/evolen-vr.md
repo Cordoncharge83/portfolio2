@@ -16,7 +16,6 @@ stack: [Unity 2022.3, C#, URP, XR Interaction Toolkit, OpenXR, TextMesh Pro]
 links:
   - { kind: repo, label: GitHub, href: "https://github.com/Cordoncharge83/Unity_VR_Evolen_Game" }
 thumb: vr
-draft: true
 ---
 
 A virtual reality game commissioned by EVOLEN and built by a team of IMT Atlantique students to introduce careers in the energy transition. In the solar scene, the player walks around a photovoltaic site where characters describe their jobs on dialogue panels, and collecting tokens unlocks further questions. The biogas scene reuses the same setup with other characters, plus panels explaining the anaerobic digester and the gas purifier.
