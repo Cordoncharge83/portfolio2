@@ -59,6 +59,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
       }
       hero={<ProjectMedia project={project} variant="hero" />}
       heroIsIllustration={!project.cover}
+      heroSize={project.cover ?? undefined}
       draft={project.draft}
       sections={project.sections}
       after={<Gallery images={project.gallery} />}

@@ -15,7 +15,7 @@ A three-year engineering degree at IMT Atlantique, one of France's grandes écol
 
 ## How I used it
 
-The degree is structured around long internships and project work rather than lectures alone. I spent a semester at La Banque Postale building a retrieval-augmented assistant, then six months at Sopra Steria maintaining a large healthcare system, and in between worked on academic projects including a VR simulation in Unity and a game-development workshop. I also spent a year leading WAKE, the student committee behind the school's largest event.
+The degree is structured around long internships and project work rather than lectures alone. I spent four months at La Banque Postale building a retrieval-augmented assistant, then six months at Sopra Steria maintaining a large healthcare system, and in between worked on academic projects including a VR simulation in Unity and a game-development workshop. I also spent a year leading WAKE, the student committee behind the school's largest event.
 
 ## What it gave me
 

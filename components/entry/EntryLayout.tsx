@@ -24,6 +24,7 @@ export function EntryLayout({
   meta,
   hero,
   heroIsIllustration = false,
+  heroSize,
   draft,
   sections,
   after,
@@ -38,6 +39,8 @@ export function EntryLayout({
   meta?: React.ReactNode;
   hero?: React.ReactNode;
   heroIsIllustration?: boolean;
+  /** Natural size of a screenshot hero: keeps its proportions and never upscales it. */
+  heroSize?: { width: number; height: number };
   draft?: boolean;
   sections: Section[];
   after?: React.ReactNode;
@@ -57,7 +60,14 @@ export function EntryLayout({
         {meta && <div className="entry-meta-row">{meta}</div>}
       </header>
 
-      {hero && <div className={heroIsIllustration ? "entry-hero is-illustration" : "entry-hero"}>{hero}</div>}
+      {hero && (
+        <div
+          className={heroIsIllustration ? "entry-hero is-illustration" : "entry-hero"}
+          style={heroSize && { aspectRatio: `${heroSize.width} / ${heroSize.height}`, maxWidth: `${heroSize.width}px` }}
+        >
+          {hero}
+        </div>
+      )}
 
       <div className="entry-grid">
         <div className="prose-journal">

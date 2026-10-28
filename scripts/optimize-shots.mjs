@@ -15,6 +15,15 @@ for (const shot of shots) {
   const input = path.join(rawDir, shot.raw);
   const outDir = path.join("public", "shots", shot.slug);
   fs.mkdirSync(outDir, { recursive: true });
+  if (shot.native) {
+    const file = path.join(outDir, `${shot.name}.webp`);
+    const info = await sharp(input)
+      .resize({ width: 1920, withoutEnlargement: true })
+      .webp({ quality: 82, effort: 6 })
+      .toFile(file);
+    console.log(`${file}  ${info.width}x${info.height}  ${Math.round(info.size / 1024)} KB`);
+    continue;
+  }
   for (const width of [960, 1920]) {
     const file = path.join(outDir, `${shot.name}-${width}.webp`);
     const info = await sharp(input)

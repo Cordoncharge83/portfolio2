@@ -25,8 +25,8 @@ export const skillGroups: SkillGroup[] = [
     id: "frontend",
     title: "Frontend and interactive",
     summary:
-      "React and TypeScript with Vite, Tailwind and shadcn for web interfaces; Angular from professional work. Desktop applications with Tauri. 3D and motion on the web with Three.js, React Three Fiber, GSAP and Spline, and game development in Unity with C#.",
-    tags: ["React", "TypeScript", "Vite", "Tailwind", "shadcn", "Angular", "Tauri", "Three.js", "GSAP", "Unity"],
+      "React and TypeScript with Next.js, Vite, Tailwind and shadcn for web interfaces; Angular from professional work. Desktop applications with Tauri. 3D and motion on the web with Three.js, React Three Fiber, GSAP and Spline, and game development in Unity with C#.",
+    tags: ["React", "TypeScript", "Next.js", "Vite", "Tailwind", "shadcn", "Angular", "Tauri", "Three.js", "GSAP", "Unity"],
   },
   {
     id: "deployment",

@@ -11,7 +11,7 @@ export function Gallery({ images }: { images: GalleryImage[] }) {
       <h2 id="screens">Screens</h2>
       {images.map((img) => (
         <figure key={img.src}>
-          <div className="gallery-frame">
+          <div className="gallery-frame" style={{ aspectRatio: `${img.width} / ${img.height}` }}>
             {img.darkSrc ? (
               <>
                 <img src={img.src} srcSet={srcSetFor(img.src)} sizes={sizes} alt={img.alt} width={img.width} height={img.height} loading="lazy" decoding="async" className="dark:hidden" />

@@ -16,6 +16,11 @@ stack: [Unity 6, C#, 2D URP, Tilemap, TextMesh Pro]
 links:
   - { kind: repo, label: GitHub, href: "https://github.com/Cordoncharge83/CapsuleMonstersGX" }
 thumb: grid
+cover:
+  src: /shots/capsule-monsters-gx/battle.webp
+  alt: "CapsuleMonstersGX battle screen: the octagonal arena grid with capsules at both ends, the AP bar, and the unit panel for a level 1 monster."
+  width: 727
+  height: 377
 draft: true
 ---
 

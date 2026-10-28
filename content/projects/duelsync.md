@@ -17,6 +17,22 @@ links:
   - { kind: docs, label: How it works, href: null }
   - { kind: repo, label: GitHub, href: null }
 thumb: bracket
+cover:
+  src: /shots/duelsync/community-players.webp
+  alt: "DuelSync Community Players view: a searchable table of 16 community profiles with tournaments, points and best rank, beside the selected player's tournament history."
+  width: 1277
+  height: 752
+gallery:
+  - src: /shots/duelsync/playoffs.webp
+    alt: "A completed Top 4 single-elimination bracket in DuelSync, from semifinals to the final and the champion."
+    caption: "Top Cut seeded from the Swiss standings and advanced by clicking through matches."
+    width: 1766
+    height: 701
+  - src: /shots/duelsync/publishing.webp
+    alt: "DuelSync event panel with the public link and QR code, the hosted publishing status, and the watched KTS tournament file with its last sync result."
+    caption: "The watched KTS file, and one-click publishing of the public page players open by QR code."
+    width: 900
+    height: 807
 ---
 ## The problem
 
