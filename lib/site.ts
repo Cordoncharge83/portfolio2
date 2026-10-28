@@ -1,10 +1,9 @@
 /**
- * Deployment-level settings. Domains are not decided yet, so everything that
- * depends on them lives here.
+ * Deployment-level settings. Everything that depends on the domain lives here.
  */
 export const site = {
   /** Canonical origin of the portfolio, used for metadata, sitemap and OG tags. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://moudka.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://portfolio.moudka.com",
   name: "Mouadh",
   /** The village game. Leave `url` null until it is published. */
   village: {

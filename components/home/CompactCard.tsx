@@ -4,7 +4,7 @@ import { Thumb } from "@/components/thumbs/Thumb";
 export function CompactCard({ project }: { project: Project }) {
   const repo = project.links.find((l) => l.kind === "repo" && l.href);
   return (
-    <article className="compact-card">
+    <article className="compact-card" data-category={project.category}>
       <div className="thumb-mini">
         <Thumb kind={project.thumb} square />
       </div>

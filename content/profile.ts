@@ -5,6 +5,8 @@ export interface SocialLink {
 
 export const profile = {
   shortName: "Mouadh",
+  /** Used in search-engine data (JSON-LD, author meta) so the site matches the CV and LinkedIn. */
+  fullName: "Mouadh Bondka",
   roleLine: "Software engineer & game developer",
   /** Rendered as Markdown inline; *emphasis* becomes the terracotta italic. */
   headline: "I build AI products, dependable backends and the occasional *small world*.",
@@ -15,8 +17,11 @@ export const profile = {
     soon: "This is the quick read. A woodland village to wander through the same stories is on its way.",
   },
   /** Fill these in to show them; null values are hidden. */
-  email: null as string | null,
+  email: "contact@moudka.com" as string | null,
   cvUrl: null as string | null,
-  socials: [{ label: "GitHub", href: "https://github.com/Cordoncharge83" }] as SocialLink[],
+  socials: [
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/mouadh-bondka-57870a28a/" },
+    { label: "GitHub", href: "https://github.com/Cordoncharge83" },
+  ] as SocialLink[],
   alumniOf: "IMT Atlantique",
 };

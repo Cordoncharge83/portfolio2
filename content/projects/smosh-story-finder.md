@@ -13,7 +13,7 @@ summary: "A searchable archive where a story, not a video, is the unit of data: 
 stack: [React, TypeScript, Vite, Motion, Radix UI, Python, YouTube Data API v3, GitHub Actions, Cloudflare Pages & Pages Functions]
 links:
   - { kind: live, label: Live site, href: "https://smosh-story-finder.moudka.com" }
-  - { kind: writeup, label: "Technical write-up (Hashnode)", href: null }
+  - { kind: writeup, label: "Technical write-up (Hashnode)", href: "https://smosh-stories-finder-tech.hashnode.dev" }
   - { kind: repo, label: GitHub, href: null }
 thumb: search
 cover:

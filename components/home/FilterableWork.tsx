@@ -50,7 +50,7 @@ export function FilterableWork({ featured, compact }: { featured: WorkItem[]; co
       </ul>
       {compact.length > 0 && (
         <div className="more-work" hidden={!compactVisible}>
-          <h3 className="label">Earlier games from my studies</h3>
+          <h3 className="label">Smaller and earlier projects</h3>
           <ul className="compact-cards">
             {compact.map((item) => (
               <li key={item.slug} hidden={!shows(item)}>

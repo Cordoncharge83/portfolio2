@@ -9,7 +9,8 @@ import { site } from "@/lib/site";
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: profile.shortName,
+  name: profile.fullName,
+  alternateName: profile.shortName,
   url: site.url,
   jobTitle: "Software engineer",
   alumniOf: { "@type": "CollegeOrUniversity", name: profile.alumniOf },
