@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { getFeaturedProjects, getProject } from "@/lib/content";
 import { EntryLayout } from "@/components/entry/EntryLayout";
 import { ProjectMedia } from "@/components/entry/ProjectMedia";
-import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Tags } from "@/components/ui/Tags";
 import { Gallery } from "@/components/entry/Gallery";
 import { baseOpenGraph } from "@/lib/site";
@@ -44,19 +43,12 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   return (
     <EntryLayout
       back={{ href: "/#work", label: "All work" }}
+      navLabel="More projects"
+      status={project.status}
       kicker={`${project.contextLabel} · ${project.period.label}`}
       title={project.title}
       tagline={project.tagline}
-      meta={
-        <>
-          <StatusBadge status={project.status} />
-          {project.liveUrl && (
-            <a className="btn btn-primary" href={project.liveUrl} rel="noopener">
-              Visit {project.title} ↗
-            </a>
-          )}
-        </>
-      }
+      liveUrl={project.liveUrl}
       hero={<ProjectMedia project={project} variant="hero" />}
       heroIsIllustration={!project.cover}
       heroSize={project.cover ?? undefined}
@@ -81,7 +73,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           </div>
           <div>
             <dt>Stack</dt>
-            <dd className="mt-1.5">
+            <dd>
               <Tags items={project.stack} label={`${project.title} stack`} />
             </dd>
           </div>
@@ -89,16 +81,18 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             <div>
               <dt>Links</dt>
               <dd>
-                <ul className="links">
+                <ul className="glance-links">
                   {links.map((l) => (
                     <li key={l.label}>
-                      <a href={l.href!} rel="noopener">
-                        {l.label} ↗
+                      <a className="text-link" href={l.href!} rel="noopener">
+                        {l.label}
+                        <span aria-hidden="true">&nbsp;↗</span>
                       </a>
                     </li>
                   ))}
+                  {/* Links without an address are never rendered; only their note shows, as text. */}
                   {pending.map((l) => (
-                    <li key={l.label} className="text-muted">
+                    <li key={l.label} className="glance-note">
                       {l.note}
                     </li>
                   ))}

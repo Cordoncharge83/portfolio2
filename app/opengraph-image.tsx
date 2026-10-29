@@ -10,6 +10,6 @@ export default function Image() {
   return renderOgImage({
     kicker: profile.roleLine,
     title: "Mouadh",
-    subtitle: "AI products, dependable backends and the occasional small world.",
+    subtitle: "AI products, solid backends and small worlds.",
   });
 }

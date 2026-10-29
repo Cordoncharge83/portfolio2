@@ -5,7 +5,7 @@
  * that sync for the toggle.
  */
 const script = `(function(){
-var C={light:"#f4ecdd",dark:"#141b17"},d=document.documentElement;
+var C={light:"#f9ebd7",dark:"#031211"},d=document.documentElement;
 function sync(){var t=d.dataset.theme;document.querySelectorAll('meta[name="theme-color"]').forEach(function(m){
 if(m.dataset.media===undefined){m.dataset.media=m.getAttribute("media")||"";m.dataset.color=m.content}
 if(t){m.removeAttribute("media");m.content=C[t]}else{if(m.dataset.media)m.setAttribute("media",m.dataset.media);m.content=m.dataset.color}})}

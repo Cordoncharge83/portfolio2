@@ -53,7 +53,7 @@ for (const file of htmlFiles) {
 const gaps = [];
 for (const p of content.projects) {
   for (const l of p.links) if (!l.href) gaps.push(`${p.slug}: "${l.label}" has no URL yet (hidden on the site)`);
-  if (p.tier === "featured" && !p.cover) gaps.push(`${p.slug}: no screenshot yet (illustration shown)`);
+  if (p.tier === "featured" && !p.cover) gaps.push(`${p.slug}: no screenshot yet (placeholder shown)`);
   if (p.draft) gaps.push(`${p.slug}: draft copy`);
 }
 if (!content.profile.email) gaps.push("profile: no email");

@@ -1,4 +1,6 @@
-Fraunces, Alegreya Sans and Alegreya Sans SC are licensed under the SIL Open Font License 1.1
-(https://openfontlicense.org). These static TTF files are used only to render Open Graph images at build time.
-Fraunces-Soft-latin.woff2 and Fraunces-Soft-Italic-latin.woff2 are Google Fonts instances of Fraunces
-(SOFT axis pinned at 100, Latin subset), self-hosted through next/font/local.
+Pixelify Sans (Bold), Silkscreen (Regular) and Instrument Sans (Regular) are licensed under the
+SIL Open Font License 1.1 (https://openfontlicense.org).
+Copyright 2021 The Pixelify Sans Project Authors (https://github.com/eifetx/Pixelify-Sans)
+Copyright 2001 The Silkscreen Project Authors (https://github.com/googlefonts/silkscreen)
+Copyright 2022 The Instrument Sans Project Authors (https://github.com/Instrument/instrument-sans)
+These static TTF files are used only to render Open Graph images at build time.

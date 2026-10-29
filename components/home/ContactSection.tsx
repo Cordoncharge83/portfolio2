@@ -1,39 +1,39 @@
 import { profile } from "@/content/profile";
-import { Chapter } from "@/components/ui/Chapter";
-import { VillageBanner } from "@/components/site/VillageBanner";
+import { PinesBand } from "@/components/scene/PinesBand";
+import { Starfield } from "@/components/scene/Starfield";
 
+/** The closing band: email, CV and socials over a pine silhouette (and stars at night). */
 export function ContactSection() {
+  const socials = profile.socials.filter((s) => s.href);
+
   return (
-    <>
-      <section className="chapter" aria-label="The village">
-        <VillageBanner />
-      </section>
-      <Chapter id="contact" numeral="IV." title="Contact">
-        <p className="max-w-[40rem] text-muted">
-          For work, collaborations or questions about any of these projects.
-        </p>
-        <ul className="contact-list">
-          {profile.email && (
-            <li>
-              <a href={`mailto:${profile.email}`}>{profile.email}</a>
-            </li>
-          )}
-          {profile.socials.map((s) => (
-            <li key={s.href}>
-              <a href={s.href} rel="me noopener">
-                {s.label} ↗
+    <section id="contact" className="band" aria-labelledby="contact-title">
+      <Starfield preset="band" className="band-sky" />
+      <div className="container band-in">
+        <p className="px band-label">Contact</p>
+        <h2 id="contact-title">Let&apos;s build something</h2>
+        <p className="band-lede">For work, collaborations or questions about any of these projects.</p>
+        {profile.email && (
+          <a className="band-mail" href={`mailto:${profile.email}`}>
+            {profile.email}
+          </a>
+        )}
+        {(profile.cvUrl || socials.length > 0) && (
+          <div className="band-btns">
+            {profile.cvUrl && (
+              <a className="btn" href={profile.cvUrl} download="Mouadh-Bondka-CV.pdf">
+                Download CV
               </a>
-            </li>
-          ))}
-          {profile.cvUrl && (
-            <li>
-              <a href={profile.cvUrl} download="Mouadh-Bondka-CV.pdf">
-                CV (PDF)
+            )}
+            {socials.map((s) => (
+              <a key={s.href} className="btn-line" href={s.href} rel="me noopener">
+                {s.label}
               </a>
-            </li>
-          )}
-        </ul>
-      </Chapter>
-    </>
+            ))}
+          </div>
+        )}
+      </div>
+      <PinesBand />
+    </section>
   );
 }

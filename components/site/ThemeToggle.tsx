@@ -19,16 +19,25 @@ function toggleTheme() {
 }
 
 export function ThemeToggle() {
-  // The visible label is picked by CSS (`dark:`), so server and client markup match.
+  // Icon and accessible name are both picked by CSS, so server and client markup match.
   return (
     <button type="button" className="theme-toggle" onClick={toggleTheme}>
-      <svg viewBox="0 0 16 16" aria-hidden="true">
-        <path d="M8 1.5a6.5 6.5 0 1 0 6.5 6.5A5 5 0 0 1 8 1.5Z" fill="currentColor" />
+      <svg className="day-only" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="currentColor" />
       </svg>
-      <span className="sr-only">Switch to </span>
-      <span className="dark:hidden">Dusk</span>
-      <span className="hidden dark:inline">Day</span>
-      <span className="sr-only"> theme</span>
+      <svg className="night-only" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="5" fill="currentColor" />
+        <path
+          d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>
+      <span className="sr-only">
+        Switch to <span className="dark:hidden">night</span>
+        <span className="hidden dark:inline">day</span> theme
+      </span>
     </button>
   );
 }

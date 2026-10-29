@@ -1,0 +1,241 @@
+/* Work section: filters, project cards, the village card and smaller projects. */
+
+/* ---------- filters ---------- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  /* the bottom margin leaves room for the icon tiles rising above the first row of cards */
+  margin: 4px 0 64px;
+}
+.filter {
+  padding: 10px 14px;
+  /* transparent border: keeps each button visible in forced-colours mode */
+  border: 1px solid transparent;
+  background: var(--surface);
+  color: var(--ink);
+  line-height: 1;
+  cursor: pointer;
+}
+.filter:hover {
+  color: var(--primary);
+}
+.filter[aria-pressed="true"] {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+@media (forced-colors: active) {
+  .filter[aria-pressed="true"] {
+    forced-color-adjust: none;
+    background: SelectedItem;
+    color: SelectedItemText;
+  }
+}
+
+/* Filtered-out items; the [hidden] attribute alone loses to any display rule. */
+.cards > li[hidden],
+.minor[hidden],
+.minor-list > li[hidden] {
+  display: none;
+}
+
+/* ---------- featured cards ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 58px 26px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  padding: 54px 24px 24px;
+  border-radius: 22px;
+  transition: transform 0.2s ease;
+}
+.card-icon {
+  position: absolute;
+  top: -30px;
+  left: 24px;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 16px;
+  background: var(--tile-bg);
+  color: var(--tile-ink);
+  box-shadow: var(--tile-shadow);
+}
+.card-icon svg {
+  width: 28px;
+  height: 28px;
+}
+.card h3 {
+  font-size: 20.3px;
+}
+.card-link {
+  text-decoration: none;
+}
+/* The title link covers the whole card; links in the foot sit above it. */
+.card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 22px;
+}
+.card-link:focus-visible {
+  outline: none;
+}
+.card-link:focus-visible::after {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.card-period {
+  color: var(--muted);
+  line-height: 1;
+}
+.card-summary {
+  flex-grow: 1;
+  color: var(--muted);
+  font-size: 15.5px;
+  line-height: 1.55;
+}
+/* Screenshot with the dithered bottom edge (.dither-edge supplies position and overflow). */
+.card-thumb {
+  margin-top: 6px;
+  border-radius: 12px;
+  aspect-ratio: 16 / 9;
+}
+.card-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+.card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 18px;
+  /* one line of link text even when empty (the village card before it opens) */
+  min-height: calc(1.6em + 6px);
+  padding-top: 6px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.card-site {
+  position: relative;
+  z-index: 4;
+  margin-left: auto;
+}
+@media (hover: hover) {
+  .card:has(.card-link):hover {
+    transform: translateY(-3px);
+  }
+  .card:has(.card-link):hover .card-cue {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* ---------- the village card ---------- */
+.card-art {
+  display: grid;
+  place-items: center;
+  margin-top: 6px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.card-art .pixel-village {
+  width: 288px;
+  max-width: 100%;
+}
+
+/* ---------- smaller and earlier projects ---------- */
+.minor-head {
+  margin: 64px 0 16px;
+  color: var(--muted);
+}
+.minor-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.minor-item {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  height: 100%;
+  padding: 18px 20px;
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+}
+.minor-item h4 {
+  font-size: 15.4px;
+}
+/* context and year: first on screen, after the title in reading order */
+.minor-meta {
+  order: -1;
+  color: var(--muted);
+}
+.minor-summary {
+  color: var(--muted);
+  font-size: 14.5px;
+}
+.minor-item .text-link {
+  justify-self: start;
+  font-size: 14.5px;
+  /* 24px tall: the minimum target size */
+  line-height: 1.7;
+  text-underline-offset: 4px;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 960px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 860px) {
+  .cards,
+  .minor-list {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 480px) {
+  .card-art .pixel-village {
+    width: 240px;
+  }
+}
+@media (max-width: 400px) {
+  .card-art .pixel-village {
+    width: 192px;
+  }
+}
+
+@media print {
+  .filters {
+    display: none;
+  }
+  .card,
+  .minor-item {
+    break-inside: avoid;
+  }
+}

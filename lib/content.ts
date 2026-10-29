@@ -37,7 +37,7 @@ const image = z.object({
   alt: z.string(),
   width: z.number().int().positive(),
   height: z.number().int().positive(),
-  /** Optional dusk variant shown when the dark theme is active. */
+  /** Optional night variant shown when the dark theme is active. */
   darkSrc: z.string().optional(),
   /** Smaller rendition for cards. */
   cardSrc: z.string().optional(),
@@ -198,3 +198,18 @@ export const statusLabel: Record<ProjectStatus, string> = {
   "in-development": "In development",
   archived: "Archived",
 };
+
+/** What each kind of journal entry is called on the site ("Studies", not "Education"). */
+export const journalKindLabel: Record<JournalEntry["kind"], string> = {
+  work: "Work",
+  education: "Studies",
+  leadership: "Leadership",
+};
+
+/** "2022–2025": the earliest start year to the latest end (or start) year. */
+export function yearSpan(periods: Period[]): string {
+  const year = (date: string) => Number(date.slice(0, 4));
+  const first = Math.min(...periods.map((p) => year(p.start)));
+  const last = Math.max(...periods.map((p) => year(p.end ?? p.start)));
+  return first === last ? `${first}` : `${first}–${last}`;
+}

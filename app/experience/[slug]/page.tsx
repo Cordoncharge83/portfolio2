@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getJournal, getJournalEntry } from "@/lib/content";
+import { getJournal, getJournalEntry, journalKindLabel } from "@/lib/content";
 import { EntryLayout } from "@/components/entry/EntryLayout";
 import { Tags } from "@/components/ui/Tags";
 import { baseOpenGraph } from "@/lib/site";
@@ -11,8 +11,6 @@ export function generateStaticParams() {
   return getJournal().map((e) => ({ slug: e.slug }));
 }
 
-const kindLabel = { work: "Work", education: "Studies", leadership: "Beyond the code" } as const;
-
 export async function generateMetadata({ params }: PageProps<"/experience/[slug]">): Promise<Metadata> {
   const entry = getJournalEntry((await params).slug);
   if (!entry) return {};
@@ -21,7 +19,13 @@ export async function generateMetadata({ params }: PageProps<"/experience/[slug]
     title,
     description: entry.summary,
     alternates: { canonical: `/experience/${entry.slug}` },
-    openGraph: { ...baseOpenGraph, type: "article", url: `/experience/${entry.slug}`, title, description: entry.summary },
+    openGraph: {
+      ...baseOpenGraph,
+      type: "article",
+      url: `/experience/${entry.slug}`,
+      title,
+      description: entry.summary,
+    },
   };
 }
 
@@ -36,7 +40,8 @@ export default async function ExperiencePage({ params }: PageProps<"/experience/
   return (
     <EntryLayout
       back={{ href: "/#experience", label: "All experience" }}
-      kicker={`${kindLabel[entry.kind]} · ${entry.period.label}`}
+      navLabel="More experience"
+      kicker={`${journalKindLabel[entry.kind]} · ${entry.period.label}`}
       title={entry.org}
       tagline={entry.role}
       sections={entry.sections}
@@ -63,7 +68,7 @@ export default async function ExperiencePage({ params }: PageProps<"/experience/
             <div>
               <dt>Highlights</dt>
               <dd>
-                <ul className="links">
+                <ul className="glance-list">
                   {entry.highlights.map((h) => (
                     <li key={h}>{h}</li>
                   ))}
@@ -74,7 +79,7 @@ export default async function ExperiencePage({ params }: PageProps<"/experience/
           {entry.stack.length > 0 && (
             <div>
               <dt>Stack</dt>
-              <dd className="mt-1.5">
+              <dd>
                 <Tags items={entry.stack} label={`${entry.org} stack`} />
               </dd>
             </div>

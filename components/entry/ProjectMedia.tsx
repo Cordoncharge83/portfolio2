@@ -1,21 +1,25 @@
 import type { Project } from "@/lib/content";
 import { srcSetFor } from "@/lib/images";
-import { Thumb } from "@/components/thumbs/Thumb";
+import { ProjectIcon } from "@/components/ui/ProjectIcon";
 
-const sizes = {
-  card: "(min-width: 68rem) 33rem, (min-width: 52rem) 50vw, 100vw",
-  hero: "(min-width: 68rem) 66rem, 100vw",
-};
+/** The case-study screenshot spans the content column (1160px at most, minus the gutters below that). */
+const heroSizes = "(min-width: 1240px) 1160px, (min-width: 861px) calc(100vw - 80px), calc(100vw - 44px)";
 
 /**
- * Screenshot when one exists, otherwise the illustrated thumbnail. When a dusk
+ * Screenshot when one exists, otherwise a plain panel with the project's icon. When a night
  * variant exists both are rendered and CSS shows the one matching the theme;
- * the dusk one is lazy so a hidden (display: none) copy is never downloaded.
+ * the night one is lazy so a hidden (display: none) copy is never downloaded.
  * Plain <img>: the static export serves pre-sized WebP files, no optimizer.
  */
 export function ProjectMedia({ project, variant }: { project: Project; variant: "card" | "hero" }) {
   const cover = project.cover;
-  if (!cover) return <Thumb kind={project.thumb} fit={variant === "hero" ? "meet" : "slice"} />;
+  if (!cover) {
+    return (
+      <div className="media-placeholder" aria-hidden="true">
+        <ProjectIcon kind={project.thumb} />
+      </div>
+    );
+  }
 
   const card = variant === "card";
   const light = (card && cover.cardSrc) || cover.src;
@@ -27,8 +31,8 @@ export function ProjectMedia({ project, variant }: { project: Project; variant: 
   if (card) {
     return dark ? (
       <>
-        <img src={light} alt={alt} {...base} loading="lazy" className="dark:hidden" />
-        <img src={dark} alt={alt} {...base} loading="lazy" className="hidden dark:block" />
+        <img src={light} alt={alt} {...base} loading="lazy" className="day-only" />
+        <img src={dark} alt={alt} {...base} loading="lazy" className="night-only" />
       </>
     ) : (
       <img src={light} alt={alt} {...base} loading="lazy" />
@@ -36,11 +40,19 @@ export function ProjectMedia({ project, variant }: { project: Project; variant: 
   }
   return dark ? (
     <>
-      <img src={light} srcSet={srcSetFor(light)} sizes={sizes.hero} alt={alt} {...base} className="dark:hidden" />
-      <img src={dark} srcSet={srcSetFor(dark)} sizes={sizes.hero} alt={alt} {...base} loading="lazy" className="hidden dark:block" />
+      <img src={light} srcSet={srcSetFor(light)} sizes={heroSizes} alt={alt} {...base} className="day-only" />
+      <img
+        src={dark}
+        srcSet={srcSetFor(dark)}
+        sizes={heroSizes}
+        alt={alt}
+        {...base}
+        loading="lazy"
+        className="night-only"
+      />
     </>
   ) : (
-    <img src={light} srcSet={srcSetFor(light)} sizes={sizes.hero} alt={alt} {...base} />
+    <img src={light} srcSet={srcSetFor(light)} sizes={heroSizes} alt={alt} {...base} />
   );
   /* eslint-enable @next/next/no-img-element */
 }

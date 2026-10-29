@@ -1,42 +1,39 @@
-import localFont from "next/font/local";
-import { Alegreya_Sans, Alegreya_Sans_SC, Caveat } from "next/font/google";
+import { Instrument_Sans, Pixelify_Sans, Silkscreen } from "next/font/google";
 
 /*
- * Fraunces from Google Fonts with SOFT pinned to 100 (the soft, rounded cut) and
- * weight limited to 400–600, keeping the optical-size axis. Pinning the axes cuts
- * the Latin files from ~270 KB to ~100 KB. Files in assets/fonts (SIL OFL 1.1).
+ * Pixelify Sans for headings, the wordmark, menu links and buttons; Instrument Sans for
+ * running text; Silkscreen for the small pixel labels. All three show on the first screen,
+ * so their Latin files are preloaded. Files are downloaded at build time and self-hosted.
  */
-export const fraunces = localFont({
-  src: [
-    { path: "../assets/fonts/Fraunces-Soft-latin.woff2", weight: "400 600", style: "normal" },
-    { path: "../assets/fonts/Fraunces-Soft-Italic-latin.woff2", weight: "400", style: "italic" },
-  ],
-  variable: "--font-fraunces",
-  display: "swap",
-  fallback: ["Iowan Old Style", "Georgia", "serif"],
-  adjustFontFallback: "Times New Roman",
-});
 
-export const alegreya = Alegreya_Sans({
+export const pixelify = Pixelify_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-alegreya",
+  variable: "--font-pixelify",
   display: "swap",
 });
 
-export const alegreyaSC = Alegreya_Sans_SC({
+export const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
-  weight: "500",
-  variable: "--font-alegreya-sc",
+  variable: "--font-instrument",
+  display: "swap",
+});
+
+/*
+ * The italic only appears inside running text further down a page, so it is a separate,
+ * non-preloaded call. Both calls declare the same "Instrument Sans" family, so the browser
+ * picks the italic faces up through --font-instrument; its own variable is never used.
+ */
+export const instrumentSansItalic = Instrument_Sans({
+  subsets: ["latin"],
+  style: "italic",
+  variable: "--font-instrument-italic",
   display: "swap",
   preload: false,
 });
 
-export const caveat = Caveat({
+export const silkscreen = Silkscreen({
   subsets: ["latin"],
-  weight: "500",
-  variable: "--font-caveat",
+  weight: "400",
+  variable: "--font-silkscreen",
   display: "swap",
-  preload: false,
 });

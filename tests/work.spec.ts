@@ -3,21 +3,44 @@ import { expect, test } from "@playwright/test";
 test("work filter shows one category at a time", async ({ page }) => {
   await page.goto("/");
   const work = page.locator("#work");
-  const visibleCards = work.locator(".cards > li:visible");
-  const total = await visibleCards.count();
+  const visibleItems = work.locator(".cards > li:visible, .minor-list > li:visible");
+  const categories = () => visibleItems.evaluateAll((els) => els.map((e) => (e as HTMLElement).dataset.category));
+  const total = await visibleItems.count();
   expect(total).toBeGreaterThan(3);
+  expect(new Set(await categories())).toEqual(new Set(["software", "game"]));
 
   const software = work.getByRole("button", { name: "Software" });
   await software.click();
   await expect(software).toHaveAttribute("aria-pressed", "true");
   await expect(work.getByRole("button", { name: "All" })).toHaveAttribute("aria-pressed", "false");
-  for (const tag of await visibleCards.locator(".tag-cat").allTextContents()) expect(tag).toBe("Software");
+  const softwareOnly = await categories();
+  expect(softwareOnly.length).toBeGreaterThan(0);
+  expect(softwareOnly.every((c) => c === "software")).toBe(true);
+  await expect(work.getByRole("status")).toHaveText(`Showing ${softwareOnly.length} projects`);
 
   await work.getByRole("button", { name: "Games" }).click();
-  for (const tag of await visibleCards.locator(".tag-cat").allTextContents()) expect(tag).toBe("Game");
+  const gamesOnly = await categories();
+  expect(gamesOnly.length).toBeGreaterThan(0);
+  expect(gamesOnly.every((c) => c === "game")).toBe(true);
+  expect(softwareOnly.length + gamesOnly.length).toBe(total);
 
   await work.getByRole("button", { name: "All" }).click();
-  await expect(visibleCards).toHaveCount(total);
+  await expect(visibleItems).toHaveCount(total);
+});
+
+test("the village card is a game: hidden under Software, shown under Games", async ({ page }) => {
+  await page.goto("/");
+  const work = page.locator("#work");
+  const village = work.locator(".card-village");
+  await expect(village).toBeVisible();
+  await expect(village.getByRole("heading", { level: 3 })).toHaveText("The Village");
+  await expect(village.getByRole("img")).toBeVisible();
+
+  await work.getByRole("button", { name: "Software" }).click();
+  await expect(village).toBeHidden();
+
+  await work.getByRole("button", { name: "Games" }).click();
+  await expect(village).toBeVisible();
 });
 
 test("each card links to its case study", async ({ page }) => {

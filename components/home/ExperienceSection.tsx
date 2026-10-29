@@ -1,51 +1,53 @@
 import Link from "next/link";
-import { getJournal } from "@/lib/content";
-import { Chapter } from "@/components/ui/Chapter";
+import { getJournal, journalKindLabel, yearSpan } from "@/lib/content";
+import { SectionHead } from "@/components/ui/SectionHead";
 import { Tags } from "@/components/ui/Tags";
 
+/** Jobs as dated rows, then studies and leadership as two cards. Each links to its journal page. */
 export function ExperienceSection() {
   const journal = getJournal();
   const work = journal.filter((e) => e.kind === "work");
   const other = journal.filter((e) => e.kind !== "work");
 
   return (
-    <Chapter id="experience" numeral="II." title="Experience">
-      <ol className="timeline">
-        {work.map((e) => (
-          <li key={e.slug} className="entry">
-            <span className="when">{e.period.label}</span>
-            <h3>
-              <Link href={`/experience/${e.slug}`}>
-                {e.role} · {e.org}
-              </Link>
-            </h3>
-            <p>{e.summary}</p>
-            {e.highlights.length > 0 && <Tags items={e.highlights} label={`${e.org} highlights`} />}
-            <Link href={`/experience/${e.slug}`} className="read-more">
-              Read the full entry<span className="sr-only"> on {e.org}</span> →
-            </Link>
-          </li>
-        ))}
-      </ol>
-      <div className="side-entries">
-        {other.map((e) => (
-          <article key={e.slug} className="side-entry">
-            <span className="label">{e.kind === "education" ? "Studies" : "Beyond the code"}</span>
-            <h3>
-              <Link href={`/experience/${e.slug}`} className="text-ink no-underline hover:text-clay">
-                {e.org}
-              </Link>
-            </h3>
-            <p className="label">
-              {e.role} · {e.period.label}
-            </p>
-            <p>{e.summary}</p>
-            <Link href={`/experience/${e.slug}`} className="read-more">
-              Read more<span className="sr-only"> about {e.org}</span> →
-            </Link>
-          </article>
-        ))}
+    <section id="experience" className="section section-alt" aria-labelledby="experience-title">
+      <div className="container">
+        <SectionHead id="experience-title" eyebrow={yearSpan(journal.map((e) => e.period))} title="Experience" />
+        <ol className="xp-list">
+          {work.map((e) => (
+            <li key={e.slug} className="xp-item">
+              <h3>
+                <Link href={`/experience/${e.slug}`} className="xp-link" prefetch={false}>
+                  {e.org} <span className="xp-role">·&nbsp;{e.role}</span>
+                </Link>
+              </h3>
+              {/* In the left column on screen, read after the title. */}
+              <p className="px xp-when">{e.period.label}</p>
+              <p className="xp-summary">{e.summary}</p>
+              {e.highlights.length > 0 && <Tags items={e.highlights} label={`${e.org} highlights`} />}
+            </li>
+          ))}
+        </ol>
+        {other.length > 0 && (
+          <div className="pair">
+            {other.map((e) => (
+              <article key={e.slug} className="panel pair-card">
+                <h3>
+                  {/* Stretched over the whole card (.pair-link::after). */}
+                  <Link href={`/experience/${e.slug}`} className="pair-link" prefetch={false}>
+                    {e.org}
+                  </Link>
+                </h3>
+                {/* Shown above the title (CSS order), read after it. */}
+                <p className="px pair-meta">
+                  {journalKindLabel[e.kind]} · {e.period.label}
+                </p>
+                <p className="pair-summary">{e.summary}</p>
+              </article>
+            ))}
+          </div>
+        )}
       </div>
-    </Chapter>
+    </section>
   );
 }

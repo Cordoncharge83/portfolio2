@@ -19,14 +19,29 @@ for (const route of routes) {
 test("unknown paths return the 404 page", async ({ page }) => {
   const response = await page.goto("/no-such-page");
   expect(response?.status()).toBe(404);
+  await expect(page.locator("h1")).toHaveCount(1);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("isn't on the map");
+  await page.getByRole("link", { name: "Back to the home page" }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("small worlds");
 });
 
-test("section links work from a detail page", async ({ page }) => {
+test("section links work from a detail page", async ({ page, isMobile }) => {
   await page.goto("/projects/bargainy");
-  await page.getByRole("navigation", { name: "Sections" }).getByRole("link", { name: "Experience" }).click();
-  await expect(page).toHaveURL(/\/#experience$/);
-  await expect(page.locator("#experience")).toBeInViewport();
+  const sections = page.getByRole("navigation", { name: "Sections" });
+  if (isMobile) {
+    // By design, the phone's nav bar holds only the wordmark, the CV button and the theme toggle.
+    await expect(sections).toBeHidden();
+  } else {
+    await sections.getByRole("link", { name: "Experience" }).click();
+    await expect(page).toHaveURL(/\/#experience$/);
+    await expect(page.locator("#experience")).toBeInViewport();
+    await page.goto("/projects/bargainy");
+  }
+  // The back link above the title leads to the work section on every screen size.
+  await page.getByRole("link", { name: "All work" }).click();
+  await expect(page).toHaveURL(/\/#work$/);
+  await expect(page.locator("#work")).toBeInViewport();
 });
 
 test("content.json exposes every entry for the game", async ({ request }) => {
@@ -69,5 +84,10 @@ test("the CV is served as a PDF, with /cv as a short link", async ({ page, reque
   expect(short.status()).toBe(302);
   expect(short.headers()["location"]).toMatch(/\/cv\.pdf$/);
   await page.goto("/");
-  await expect(page.getByRole("link", { name: "Download CV" })).toHaveAttribute("href", "/cv.pdf");
+  // In the nav bar (hidden on narrow phones, so hidden links count too) and in the contact band.
+  const navCv = page.getByRole("banner").getByRole("link", { name: "Download CV", includeHidden: true });
+  await expect(navCv).toHaveAttribute("href", "/cv.pdf");
+  const bandCv = page.locator("#contact").getByRole("link", { name: "Download CV" });
+  await expect(bandCv).toBeVisible();
+  await expect(bandCv).toHaveAttribute("href", "/cv.pdf");
 });

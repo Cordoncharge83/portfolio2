@@ -1,0 +1,246 @@
+/* Other home sections: experience, skills and the contact band. */
+
+/* ---------- experience: dated rows for jobs ---------- */
+.xp-list {
+  display: grid;
+  gap: 34px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+/* The date sits in the left column; in the markup it follows the title. */
+.xp-item {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  grid-template-areas:
+    "when title"
+    "when summary"
+    "when chips";
+  column-gap: 30px;
+  align-items: start;
+}
+.xp-item h3 {
+  grid-area: title;
+  font-size: clamp(19.6px, 2.38vw, 26.6px);
+}
+.xp-link {
+  /* inline padding grows the link's box to a 24px target without moving the text */
+  padding-block: 1px;
+  text-decoration: none;
+}
+.xp-link:hover {
+  text-decoration-line: underline;
+}
+.xp-role {
+  color: var(--muted);
+  font-weight: 500;
+}
+.xp-when {
+  grid-area: when;
+  padding-top: 8px;
+  line-height: 1.6;
+  color: var(--primary);
+}
+.xp-summary {
+  grid-area: summary;
+  max-width: 64ch;
+  margin: 10px 0 12px;
+  color: var(--muted);
+}
+.xp-item .chips {
+  grid-area: chips;
+}
+
+/* ---------- experience: studies and leadership cards ---------- */
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 44px;
+}
+.pair-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 22px 24px;
+}
+.pair-card h3 {
+  font-size: 18.2px;
+}
+.pair-link {
+  padding-block: 2px;
+  text-decoration: none;
+}
+/* The title link covers the whole card. */
+.pair-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+}
+.pair-link:hover {
+  text-decoration-line: underline;
+}
+.pair-link:focus-visible {
+  outline: none;
+}
+.pair-link:focus-visible::after {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+.pair-meta {
+  order: -1;
+  color: var(--primary);
+}
+.pair-summary {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* ---------- skills ---------- */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 34px 46px;
+}
+.skill-group h3 {
+  margin-bottom: 8px;
+  font-size: 18.2px;
+}
+.skill-group p {
+  max-width: 54ch;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 15.5px;
+}
+/* Spoken languages with their levels, then the "also" row in the same, quieter style. */
+.langs,
+.skills-also ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.langs {
+  margin-top: 40px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule);
+}
+.langs li {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-weight: 500;
+}
+.langs .px,
+.skills-also .px {
+  color: var(--primary);
+}
+.skills-also {
+  display: flex;
+  align-items: baseline;
+  gap: 10px 22px;
+  margin-top: 14px;
+}
+.skills-also ul {
+  gap: 10px 22px;
+  color: var(--muted);
+}
+
+/* ---------- contact band ---------- */
+.band {
+  --focus: var(--band-ink);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: 84px 170px;
+  background: var(--band-bg);
+  color: var(--band-ink);
+}
+/* Above the starfield and the pines. */
+.band-in {
+  position: relative;
+  z-index: 1;
+}
+.band-label {
+  color: var(--band-muted);
+}
+.band h2 {
+  margin: 12px 0 14px;
+  font-size: clamp(32.2px, 4.9vw, 61.6px);
+}
+.band-lede {
+  max-width: 48ch;
+  color: var(--band-muted);
+}
+/* The address as a big underlined link; padded to a 24px target at its smallest size. */
+.band-mail {
+  display: inline-block;
+  margin-top: 16px;
+  padding-block: 4px 2px;
+  border-bottom: 2px solid currentColor;
+  font-family: var(--font-display);
+  font-size: clamp(16.8px, 2.1vw, 23.8px);
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.band-mail:hover {
+  border-bottom-color: color-mix(in srgb, currentColor 45%, transparent);
+}
+.band-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+.band .btn {
+  background: var(--band-btn-bg);
+  color: var(--band-btn-ink);
+}
+
+/* ---------- phones and narrow windows: one column ---------- */
+@media (max-width: 860px) {
+  .xp-item {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "when"
+      "title"
+      "summary"
+      "chips";
+  }
+  .xp-when {
+    padding-top: 0;
+    margin-bottom: 4px;
+  }
+  .pair,
+  .skills-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* The copy spans the width: stars above it and among the pines, none behind it. */
+  .band-sky {
+    --sky-mask: linear-gradient(to bottom, #000 0 60px, #0000 84px calc(100% - 180px), #000 calc(100% - 130px));
+    -webkit-mask: var(--sky-mask);
+    mask: var(--sky-mask);
+  }
+}
+
+@media print {
+  .xp-item,
+  .pair-card,
+  .skill-group {
+    break-inside: avoid;
+  }
+  .band {
+    padding-block: 40px;
+    background: none;
+    color: inherit;
+  }
+  .band .pines-band {
+    display: none;
+  }
+}

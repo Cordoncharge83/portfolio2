@@ -2,95 +2,180 @@ import "server-only";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
-import { buildScene } from "@/lib/scene";
+import { heroLandscape, moonCraters, starfield, type KeepOut, type StarColor } from "@/lib/sky";
 
-/** Shared Open Graph card: a dusk sky, the title in Fraunces, and the village band below. */
+/**
+ * Shared Open Graph card in the night palette: the starry sky and teal glow of the home hero,
+ * the moon with its halo on the right, the hero's pine ridges along the bottom, and the text
+ * in the site's three typefaces. Satori reads neither CSS variables nor WOFF2, so the colours
+ * are fixed here and the fonts are static TTFs in assets/fonts.
+ */
 
 export const ogSize = { width: 1200, height: 630 };
 export const ogContentType = "image/png";
 
-const fontDir = path.join(process.cwd(), "assets", "fonts");
-const scene = buildScene(7);
-
-// Fixed dusk palette (satori cannot read CSS variables).
+// Night tokens from styles/tokens.css.
 const c = {
-  skyTop: "#1d2638",
-  skyMid: "#4a3647",
-  skyLow: "#c7764a",
-  hillFar: "#2e3b3a",
-  hillMid: "#22302a",
-  hillNear: "#151e19",
-  wall: "#2a2520",
-  roof: "#c7673f",
-  window: "#ffc46b",
-  ink: "#f1e6d2",
-  amber: "#f0b25a",
+  bg: "#031211",
+  glow: "#0a3b37",
+  ink: "#e8e4d3",
+  muted: "#9db3ad",
+  teal: "#00aebb",
+  moon: "#e8e4d3",
+  crater: "#cfcab4",
+  moonGlow: "#4fa39b",
+  ridgeFar: "#0a2b28",
+  ridgeMid: "#061f1d",
+  ridgeNear: "#020b0a",
+};
+const starFill: Record<StarColor, string> = { star: "#e8e4d3", starHi: "#a9dcd5" };
+
+const { width: W, height: H } = ogSize;
+/** The text column: left-aligned, centred vertically in the sky above the pines, clear of the moon's halo. */
+const column = { left: 80, width: 700, height: 440 };
+/** The hero's moon (centre 600, 120; r 44, halo r 140) moved to the top right and scaled up. */
+const moon = { x: 1000, y: 160, scale: 1.2 };
+/** The hero's 1200 x 300 landscape box, set on the bottom edge. */
+const landTop = H - 300;
+
+// No stars on the moon, and only a few faint ones behind the text.
+const keep: KeepOut = (x, y, big, rand) => {
+  if (Math.hypot(x - moon.x, y - moon.y) < 44 * moon.scale + 14) return false;
+  if (x < column.left + column.width + 30 && y < column.height) return !big && rand() > 0.7;
+  return true;
 };
 
+const land = heroLandscape();
+// Stars reach down to the far ridge (y 140 to 200 in the landscape box), which hides the lowest ones.
+const stars = starfield({ seed: 61, count: 320, width: W, height: landTop + 180, keep });
+
+const scene = (
+  <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ position: "absolute", left: 0, top: 0 }}>
+    <defs>
+      {/* --hero-bg: an ellipse 70% x 60% of the box at the bottom centre, fading out at 70% */}
+      <radialGradient id="glow">
+        <stop offset="0" stopColor={c.glow} />
+        <stop offset="0.7" stopColor={c.bg} />
+      </radialGradient>
+      <radialGradient id="halo">
+        <stop offset="0" stopColor={c.moonGlow} stopOpacity={0.35} />
+        <stop offset="1" stopColor={c.moonGlow} stopOpacity={0} />
+      </radialGradient>
+    </defs>
+    <rect width={W} height={H} fill={c.bg} />
+    <ellipse cx={W / 2} cy={H} rx={W * 0.7} ry={H * 0.6} fill="url(#glow)" />
+    {stars.map((l) => (
+      <path
+        key={`${l.color}-${l.opacity}-${l.twinkle}-${l.sparkle}`}
+        d={l.d}
+        fill={starFill[l.color]}
+        fillOpacity={l.opacity}
+        shapeRendering={l.sparkle ? "crispEdges" : undefined}
+      />
+    ))}
+    <g transform={`translate(${moon.x} ${moon.y}) scale(${moon.scale}) translate(-600 -120)`}>
+      <circle cx="600" cy="120" r="140" fill="url(#halo)" />
+      <circle cx="600" cy="120" r="44" fill={c.moon} />
+      <path d={moonCraters} fill={c.crater} />
+    </g>
+    <g transform={`translate(0 ${landTop})`}>
+      <path d={land.far} fill={c.ridgeFar} />
+      <path d={land.mid} fill={c.ridgeMid} />
+      <path d={land.near} fill={c.ridgeNear} />
+    </g>
+  </svg>
+);
+
+/**
+ * Pixelify Sans Bold runs about 0.55 to 0.65em per character. Short titles get one big line;
+ * longer ones wrap onto two lines, at a size where their longest word still fits.
+ */
+function titleSize(title: string) {
+  const oneLine = Math.floor(column.width / (0.62 * title.length));
+  if (oneLine >= 80) return Math.min(oneLine, 112);
+  const longest = Math.max(...title.split(/\s+/).map((word) => word.length));
+  return Math.min(title.length > 30 ? 64 : 84, Math.floor(column.width / (0.65 * longest)));
+}
+
+const fontDir = path.join(process.cwd(), "assets", "fonts");
+let fonts: Promise<Buffer[]> | undefined;
+const loadFonts = () =>
+  (fonts ??= Promise.all(
+    ["PixelifySans-Bold.ttf", "Silkscreen-Regular.ttf", "InstrumentSans-Regular.ttf"].map((file) =>
+      readFile(path.join(fontDir, file)),
+    ),
+  ));
+
 export async function renderOgImage({ kicker, title, subtitle }: { kicker: string; title: string; subtitle?: string | null }) {
-  const [fraunces, alegreya, alegreyaSC] = await Promise.all([
-    readFile(path.join(fontDir, "Fraunces-144pt-Regular.ttf")),
-    readFile(path.join(fontDir, "AlegreyaSans-Regular.ttf")),
-    readFile(path.join(fontDir, "AlegreyaSansSC-Medium.ttf")),
-  ]);
+  const [pixelify, silkscreen, instrument] = await loadFonts();
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          backgroundImage: `linear-gradient(180deg, ${c.skyTop} 0%, ${c.skyMid} 55%, ${c.skyLow} 100%)`,
-          position: "relative",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", padding: "64px 72px 0", gap: 18 }}>
-          <div style={{ display: "flex", fontFamily: "Alegreya Sans SC", fontSize: 30, letterSpacing: 2, color: c.amber }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", backgroundColor: c.bg }}>
+        {scene}
+        <div
+          style={{
+            position: "absolute",
+            left: column.left,
+            top: 0,
+            width: column.width,
+            height: column.height,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              fontFamily: "Silkscreen",
+              fontSize: 24,
+              lineHeight: 1.25,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+              color: c.teal,
+            }}
+          >
             {kicker}
           </div>
-          <div style={{ display: "flex", fontFamily: "Fraunces", fontSize: title.length > 28 ? 72 : 88, lineHeight: 1.04, color: c.ink, maxWidth: 1000 }}>
+          <div
+            style={{
+              display: "flex",
+              marginTop: 24,
+              fontFamily: "Pixelify Sans",
+              fontWeight: 700,
+              fontSize: titleSize(title),
+              lineHeight: 1,
+              color: c.ink,
+              textWrap: "balance",
+            }}
+          >
             {title}
           </div>
           {subtitle && (
-            <div style={{ display: "flex", fontFamily: "Alegreya Sans", fontSize: 34, color: c.ink, opacity: 0.85, maxWidth: 980 }}>
+            <div
+              style={{
+                display: "block",
+                marginTop: 26,
+                fontFamily: "Instrument Sans",
+                fontSize: 32,
+                lineHeight: 1.35,
+                color: c.muted,
+                lineClamp: 2,
+              }}
+            >
               {subtitle}
             </div>
           )}
         </div>
-        <svg width="1200" height="300" viewBox="0 0 1200 300" style={{ position: "absolute", left: 0, bottom: 0 }}>
-          {scene.stars.map((s, i) => (
-            <circle key={`s${i}`} cx={s.cx} cy={s.cy} r={s.r} fill="#fff3d6" opacity={0.5} />
-          ))}
-          <path d="M0 210 C 180 170, 330 190, 480 175 S 820 150, 980 180 S 1140 170, 1200 165 V300 H0Z" fill={c.hillFar} />
-          {scene.farTrees.map((d, i) => (
-            <path key={`f${i}`} d={d} fill={c.hillMid} />
-          ))}
-          <path d="M0 240 C 160 215, 300 230, 460 220 S 760 205, 900 225 S 1100 215, 1200 220 V300 H0Z" fill={c.hillMid} />
-          {scene.cottages.map((h, i) => (
-            <g key={`c${i}`}>
-              <ellipse cx={h.glow.cx} cy={h.glow.cy} rx={h.glow.rx} ry={h.glow.ry} fill={c.window} opacity={0.12} />
-              <rect x={h.wall.x} y={h.wall.y} width={h.wall.width} height={h.wall.height} fill={c.wall} />
-              <path d={h.roof} fill={c.roof} />
-              {h.windows.map((w, j) => (
-                <rect key={j} x={w.x} y={w.y} width={w.width} height={w.height} fill={c.window} />
-              ))}
-            </g>
-          ))}
-          <path d="M0 272 C 200 255, 420 268, 600 262 S 950 252, 1200 266 V300 H0Z" fill={c.hillNear} />
-          {scene.nearTrees.map((d, i) => (
-            <path key={`n${i}`} d={d} fill={c.hillNear} />
-          ))}
-        </svg>
       </div>
     ),
     {
       ...ogSize,
       fonts: [
-        { name: "Fraunces", data: fraunces, weight: 400, style: "normal" },
-        { name: "Alegreya Sans", data: alegreya, weight: 400, style: "normal" },
-        { name: "Alegreya Sans SC", data: alegreyaSC, weight: 500, style: "normal" },
+        { name: "Pixelify Sans", data: pixelify, weight: 700, style: "normal" },
+        { name: "Silkscreen", data: silkscreen, weight: 400, style: "normal" },
+        { name: "Instrument Sans", data: instrument, weight: 400, style: "normal" },
       ],
     },
   );

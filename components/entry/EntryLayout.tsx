@@ -1,14 +1,13 @@
 import Link from "next/link";
-import type { Section } from "@/lib/content";
-import { VillageBanner } from "@/components/site/VillageBanner";
+import type { ProjectStatus, Section } from "@/lib/content";
+import { Starfield } from "@/components/scene/Starfield";
+import { StatusBadge } from "@/components/ui/StatusBadge";
 
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 function sectionsToHtml(sections: Section[]) {
-  return sections
-    .map((s) => (s.heading ? `<h2 id="${s.id}">${escapeHtml(s.heading)}</h2>${s.html}` : s.html))
-    .join("");
+  return sections.map((s) => (s.heading ? `<h2 id="${s.id}">${escapeHtml(s.heading)}</h2>${s.html}` : s.html)).join("");
 }
 
 export interface Neighbour {
@@ -16,12 +15,18 @@ export interface Neighbour {
   title: string;
 }
 
+/**
+ * Case-study and experience pages: a starry header behind the nav, the screenshot, the write-up
+ * beside an "at a glance" card, then links to the previous and next entries.
+ */
 export function EntryLayout({
   back,
+  navLabel,
+  status,
   kicker,
   title,
   tagline,
-  meta,
+  liveUrl,
   hero,
   heroIsIllustration = false,
   heroSize,
@@ -33,13 +38,17 @@ export function EntryLayout({
   next,
 }: {
   back: { href: string; label: string };
+  /** Accessible name of the previous/next navigation, e.g. "More projects". */
+  navLabel: string;
+  status?: ProjectStatus;
   kicker: string;
   title: string;
   tagline?: string | null;
-  meta?: React.ReactNode;
+  /** Adds a "Visit <title>" button to the header. */
+  liveUrl?: string | null;
   hero?: React.ReactNode;
   heroIsIllustration?: boolean;
-  /** Natural size of a screenshot hero: keeps its proportions and never upscales it. */
+  /** Natural size of a screenshot hero: it is never stretched past its own width. */
   heroSize?: { width: number; height: number };
   draft?: boolean;
   sections: Section[];
@@ -50,62 +59,80 @@ export function EntryLayout({
 }) {
   return (
     <article>
-      <header className="entry-header">
-        <Link href={back.href} className="back-link">
-          ← {back.label}
-        </Link>
-        <p className="label">{kicker}</p>
-        <h1>{title}</h1>
-        {tagline && <p className="tagline">{tagline}</p>}
-        {meta && <div className="entry-meta-row">{meta}</div>}
+      <header className={hero ? "case-head" : "case-head case-head-solo"}>
+        <Starfield preset="header" />
+        <div className="container case-head-in">
+          <Link href={back.href} className="px case-back">
+            <span aria-hidden="true">&lt; </span>
+            {back.label}
+          </Link>
+          <div className="case-meta">
+            {status && <StatusBadge status={status} />}
+            <span className="px case-kicker">{kicker}</span>
+          </div>
+          <h1>{title}</h1>
+          {tagline && <p className="case-tagline">{tagline}</p>}
+          {liveUrl && (
+            <div className="case-actions">
+              <a className="btn" href={liveUrl} rel="noopener">
+                Visit {title}
+                <svg viewBox="0 0 12 12" aria-hidden="true">
+                  <path d="M3 9 9 3M4 3h5v5" stroke="currentColor" strokeWidth="2" fill="none" />
+                </svg>
+              </a>
+            </div>
+          )}
+        </div>
       </header>
 
       {hero && (
-        <div
-          className={heroIsIllustration ? "entry-hero is-illustration" : "entry-hero"}
-          style={heroSize && { aspectRatio: `${heroSize.width} / ${heroSize.height}`, maxWidth: `${heroSize.width}px` }}
-        >
-          {hero}
+        <div className="container">
+          <figure
+            className={heroIsIllustration ? "case-shot is-illustration" : "case-shot dither-edge dither-edge-lg"}
+            style={heroSize && { maxWidth: heroSize.width }}
+          >
+            {hero}
+          </figure>
         </div>
       )}
 
-      <div className="entry-grid">
-        <div className="prose-journal">
+      <div className="container case-grid">
+        <div className="case-main">
           {draft && (
             <p className="draft-note">
               Draft write-up assembled from the project&apos;s repository and dev log. It will be revised.
             </p>
           )}
-          <div className="contents" dangerouslySetInnerHTML={{ __html: sectionsToHtml(sections) }} />
+          <div className="prose" dangerouslySetInnerHTML={{ __html: sectionsToHtml(sections) }} />
           {after}
         </div>
-        <aside className="at-a-glance" aria-label="At a glance">
+        <aside className="glance panel" aria-label="At a glance">
           {aside}
         </aside>
       </div>
 
       {(prev || next) && (
-        <nav className="entry-nav" aria-label="More entries">
-          {prev ? (
-            <Link href={prev.href} className="prev">
-              <span className="label">← Previous</span>
-              <span className="entry-nav-title">{prev.title}</span>
-            </Link>
-          ) : (
-            <span />
-          )}
-          {next && (
-            <Link href={next.href} className="next">
-              <span className="label">Next →</span>
-              <span className="entry-nav-title">{next.title}</span>
-            </Link>
-          )}
-        </nav>
+        <div className="container">
+          <nav className="case-nav" aria-label={navLabel}>
+            {prev && (
+              <Link href={prev.href} className="prev">
+                <span className="px">
+                  <span aria-hidden="true">&lt; </span>Previous
+                </span>
+                <span className="case-nav-title">{prev.title}</span>
+              </Link>
+            )}
+            {next && (
+              <Link href={next.href} className="next">
+                <span className="px">
+                  Next<span aria-hidden="true"> &gt;</span>
+                </span>
+                <span className="case-nav-title">{next.title}</span>
+              </Link>
+            )}
+          </nav>
+        </div>
       )}
-
-      <div className="mt-12">
-        <VillageBanner headingLevel="h2" />
-      </div>
     </article>
   );
 }

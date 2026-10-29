@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/Hero";
+import { NowStrip } from "@/components/home/NowStrip";
 import { WorkSection } from "@/components/home/WorkSection";
 import { ExperienceSection } from "@/components/home/ExperienceSection";
 import { SkillsSection } from "@/components/home/SkillsSection";
@@ -22,6 +23,7 @@ export default function Home() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       <Hero />
+      <NowStrip />
       <WorkSection />
       <ExperienceSection />
       <SkillsSection />

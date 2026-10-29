@@ -1,10 +1,16 @@
 @import "tailwindcss";
 @import "../styles/tokens.css";
-@import "../styles/components.css" layer(components);
-@import "../styles/prose.css" layer(components);
-@import "../styles/scene.css" layer(components);
+@import "../styles/base.css" layer(components);
+@import "../styles/chrome.css" layer(components);
+@import "../styles/hero.css" layer(components);
+@import "../styles/work.css" layer(components);
+@import "../styles/home.css" layer(components);
+@import "../styles/entry.css" layer(components);
 
-/* `dark:` matches dusk from the OS (unless overridden to day) or an explicit dusk choice. */
+/* `.container` is the site's own layout class (styles/base.css), not Tailwind's breakpoint utility. */
+@source not inline("container");
+
+/* `dark:` matches night from the OS (unless overridden to day) or an explicit night choice. */
 @custom-variant dark {
   @media (prefers-color-scheme: dark) {
     &:where(:root:not([data-theme="light"]) *) {
@@ -19,25 +25,22 @@
 @theme inline {
   --color-*: initial;
   --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
   --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-rule: var(--rule);
-  --color-timber: var(--timber);
-  --color-forest: var(--forest);
-  --color-forest-ink: var(--forest-ink);
-  --color-clay: var(--clay);
-  --color-clay-fill: var(--clay-fill);
-  --color-amber: var(--amber);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
   --color-focus: var(--focus);
+  --color-band-ink: var(--band-ink);
+  --color-band-muted: var(--band-muted);
 
-  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
-  --font-sans: var(--font-alegreya), "Gill Sans", "Segoe UI", sans-serif;
-  --font-label: var(--font-alegreya-sc), var(--font-alegreya), "Gill Sans", sans-serif;
-  --font-note: var(--font-caveat), "Bradley Hand", "Segoe Print", cursive;
+  --font-display: var(--font-pixelify), ui-monospace, monospace;
+  --font-sans: var(--font-instrument), "Segoe UI", system-ui, sans-serif;
+  --font-px: var(--font-silkscreen), ui-monospace, monospace;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-
-  --container-journal: 68rem;
 }
 
 @layer base {
@@ -49,23 +52,34 @@
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-sans);
-    font-size: 1.125rem;
+    font-size: 17px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
   h1,
   h2,
   h3,
-  h4 {
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 600;
+    line-height: 1;
     text-wrap: balance;
-    font-variation-settings: "SOFT" 100;
+  }
+  h1,
+  h2 {
+    font-weight: 700;
+  }
+  /* Pixelify has no italic; emphasis in headings is a colour, never a synthesized slant. */
+  :is(h1, h2, h3, h4, h5, h6) :is(em, i) {
+    font-style: normal;
   }
   a {
-    color: var(--forest-ink);
-    text-decoration-color: color-mix(in srgb, var(--forest-ink) 40%, transparent);
-    text-underline-offset: 0.2em;
+    color: inherit;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
   }
   a:hover {
     text-decoration-color: currentColor;
@@ -73,13 +87,30 @@
   :focus-visible {
     outline: 2px solid var(--focus);
     outline-offset: 3px;
-    border-radius: 2px;
-  }
-  [id] {
-    scroll-margin-top: 1.5rem;
   }
   ::selection {
-    background: color-mix(in srgb, var(--amber) 45%, transparent);
+    background: var(--selection);
+  }
+  .skip-link {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    z-index: 30;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .skip-link:not(:focus) {
+    /* visually hidden until focused */
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 

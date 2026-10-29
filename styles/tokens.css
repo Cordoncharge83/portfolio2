@@ -1,111 +1,175 @@
 /*
- * Village Journal tokens. Day = parchment, Dusk = forest-night.
- * Bare :root holds the day palette; the two dusk blocks redefine tokens only,
+ * Theme tokens. Day = Warm Ivory, Emerald and Vermillion; Night = Ink Black, Warm Ivory and
+ * Electric Teal. Bare :root holds the day palette; the two night blocks redefine tokens only,
  * so the system preference and an explicit data-theme both work.
+ *
+ * Contrast (WCAG AA) is checked for every text pair defined here. --accent and --highlight are
+ * Vermillion by day (3.5:1 on --bg): use them for large text (24px+, or 18.7px+ bold), the sun,
+ * icons and underlines, never for small text.
  */
 :root {
-  --bg: #f4ecdd;
-  --surface: #fbf6ec;
-  --ink: #2a2620;
-  --muted: #6b5e4e;
-  --rule: #c9b596;
-  --timber: #7a5a3c;
-  --forest: #2f4a3a;
-  --forest-ink: #2f4a3a;
-  --on-forest: #f4ecdd;
-  --clay: #a04e2e;
-  --clay-fill: #b85c38;
-  --amber: #e0a04a;
-  --focus: #9a5f12;
-  --tag-bg: #a04e2e;
-  --tag-fg: #fbf6ec;
-  --chip-bg: rgb(47 74 58 / 0.1);
-  --shadow: 0 1px 0 rgb(122 90 60 / 0.18), 0 10px 24px -14px rgb(60 40 20 / 0.35);
+  /* surfaces and text */
+  --bg: #f9ebd7; /* Warm Ivory */
+  --bg-alt: #f4e2c6;
+  --surface: #fff7ea;
+  --ink: #14261c; /* 13.5:1 on --bg */
+  --muted: #4d5a50; /* 5.7:1 on --bg-alt, 6.2:1 on --bg */
+  --rule: #e6d2b4;
+  --primary: #046a38; /* Emerald; 5.3:1 on --bg-alt, 5.7:1 on --bg */
+  --on-primary: #f9ebd7;
+  --accent: #e34222; /* Vermillion: large text and decoration only */
+  --focus: #14261c;
+  --selection: rgb(4 106 56 / 0.2);
 
-  /* scene */
-  --sky-top: #e9c9a0;
-  --sky-mid: #f0d9b5;
-  --sky-low: #f6e7cc;
-  --hill-far: #9daa8c;
-  --hill-mid: #6f8668;
-  --hill-near: #3f5a47;
-  --wall: #8a6a4a;
-  --window: #f3d69a;
-  --window-glow: 0;
-  --grain-opacity: 0.35;
+  /* chrome */
+  --nav-bg: #fff7ea;
+  --nav-shadow: 0 12px 30px -20px rgb(4 106 56 / 0.55);
+  --btn-bg: #046a38;
+  --btn-ink: #f9ebd7;
+  --card-bg: #fff7ea;
+  --card-shadow: 0 1px 0 #e6d2b4, 0 24px 40px -30px rgb(20 38 28 / 0.45);
+  --shot-shadow: 0 24px 50px -24px rgb(20 38 28 / 0.55);
+  --tile-bg: #046a38;
+  --tile-ink: #f9ebd7;
+  --tile-shadow: 0 10px 22px -12px rgb(4 106 56 / 0.7);
+  --tag-ink: #046a38; /* 6.3:1 on --card-bg */
+  --tag-line: #046a38;
+  --chip-line: rgb(4 106 56 / 0.35);
+  --dot: #e34222;
+  --dither: #3f8a5e;
+  --lamp-glow: transparent;
 
-  /* fixed banner palette (same in both themes: it is a dusk scene) */
-  --banner-bg: #2f4a3a;
-  --banner-ink: #f1e6d2;
-  --banner-muted: #d6c9b1;
-  --lamp: #f0b25a;
-  --lamp-ink: #1b1a14;
+  /* scenes */
+  --hero-bg: linear-gradient(#f9ebd7 0%, #f7e1bf 100%);
+  --highlight: #e34222; /* the headline's highlighted words (large text) */
+  --sun: #e34222;
+  --ridge-far: #8dbb98;
+  --ridge-mid: #3f8a5e;
+  --ridge-near: #046a38;
+  /* moon, craters and stars only show at night; they keep these values in both themes */
+  --moon: #e8e4d3;
+  --crater: #cfcab4;
+  --moon-glow: #4fa39b;
+  --star: #e8e4d3;
+  --star-hi: #a9dcd5;
+
+  /* pixel-art village */
+  --pixel-sky: #8dbb98;
+  --pixel-sun: #e34222;
+  --pixel-tree: #046a38;
+  --pixel-window: #e34222;
+
+  /* contact band */
+  --band-bg: #046a38;
+  --band-ink: #f9ebd7; /* 5.7:1 */
+  --band-muted: #d3e6d7; /* 5.1:1 */
+  --band-btn-bg: #f9ebd7;
+  --band-btn-ink: #046a38;
+  --band-pines: #035a2f;
 
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #141b17;
-    --surface: #1b241f;
-    --ink: #f1e6d2;
-    --muted: #b5a68e;
-    --rule: #3a4136;
-    --timber: #a98563;
-    --forest: #8fb89a;
-    --forest-ink: #a9cdb2;
-    --on-forest: #141b17;
-    --clay: #e08a62;
-    --clay-fill: #c7673f;
-    --amber: #f0b25a;
-    --focus: #f0b25a;
-    --tag-bg: #e08a62;
-    --tag-fg: #1b1a14;
-    --chip-bg: rgb(143 184 154 / 0.12);
-    --shadow: 0 1px 0 rgb(0 0 0 / 0.4), 0 14px 30px -16px rgb(0 0 0 / 0.8);
-    --sky-top: #1d2638;
-    --sky-mid: #4a3647;
-    --sky-low: #c7764a;
-    --hill-far: #2e3b3a;
-    --hill-mid: #22302a;
-    --hill-near: #151e19;
-    --wall: #2a2520;
-    --window: #ffc46b;
-    --window-glow: 1;
-    --grain-opacity: 0.18;
-    --banner-bg: #22302a;
+    --bg: #031211; /* Ink Black */
+    --bg-alt: #041816;
+    --surface: #06201d;
+    --ink: #e8e4d3; /* Warm Ivory; 13.4:1 on --surface */
+    --muted: #9db3ad; /* 5.6:1 on the hero and band glow, 7.7:1 on --surface */
+    --rule: #0f2f2c;
+    --primary: #00aebb; /* Electric Teal; 4.6:1 on the glow, 6.3:1 on --surface */
+    --on-primary: #031211;
+    --accent: #00aebb;
+    --focus: #00aebb;
+    --selection: rgb(0 174 187 / 0.3);
+
+    --nav-bg: rgb(6 32 29 / 0.92);
+    --nav-shadow: 0 0 0 1px #0f2f2c, 0 18px 40px -26px rgb(0 0 0 / 0.9);
+    --btn-bg: #e8e4d3;
+    --btn-ink: #031211;
+    --card-bg: #06201d;
+    --card-shadow: 0 0 0 1px #0f2f2c, 0 30px 60px -40px rgb(0 0 0 / 0.9);
+    --shot-shadow: 0 0 0 1px rgb(232 228 211 / 0.1), 0 24px 60px -24px rgb(0 0 0 / 0.9);
+    --tile-bg: #08302c;
+    --tile-ink: #00aebb;
+    --tile-shadow: 0 0 0 1px rgb(0 174 187 / 0.25);
+    --tag-ink: #00aebb;
+    --tag-line: rgb(0 174 187 / 0.55);
+    --chip-line: rgb(0 174 187 / 0.3);
+    --dot: #00aebb;
+    --dither: #0e6b67;
+    --lamp-glow: rgb(0 174 187 / 0.3);
+
+    --hero-bg: radial-gradient(ellipse 70% 60% at 50% 100%, #0a3b37 0%, rgb(3 18 17 / 0) 70%), #031211;
+    --highlight: #00aebb;
+    --ridge-far: #0a2b28;
+    --ridge-mid: #061f1d;
+    --ridge-near: #020b0a;
+
+    --pixel-sky: #0e6b67;
+    --pixel-sun: #e8e4d3;
+    --pixel-tree: #031211;
+    --pixel-window: #00aebb;
+
+    --band-bg: radial-gradient(ellipse 80% 90% at 50% 110%, #0a3b37 0%, rgb(6 32 29 / 0) 70%), #06201d;
+    --band-ink: #e8e4d3;
+    --band-muted: #9db3ad;
+    --band-btn-bg: #e8e4d3;
+    --band-btn-ink: #031211;
+    --band-pines: #020b0a;
+
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --bg: #141b17;
-  --surface: #1b241f;
-  --ink: #f1e6d2;
-  --muted: #b5a68e;
-  --rule: #3a4136;
-  --timber: #a98563;
-  --forest: #8fb89a;
-  --forest-ink: #a9cdb2;
-  --on-forest: #141b17;
-  --clay: #e08a62;
-  --clay-fill: #c7673f;
-  --amber: #f0b25a;
-  --focus: #f0b25a;
-  --tag-bg: #e08a62;
-  --tag-fg: #1b1a14;
-  --chip-bg: rgb(143 184 154 / 0.12);
-  --shadow: 0 1px 0 rgb(0 0 0 / 0.4), 0 14px 30px -16px rgb(0 0 0 / 0.8);
-  --sky-top: #1d2638;
-  --sky-mid: #4a3647;
-  --sky-low: #c7764a;
-  --hill-far: #2e3b3a;
-  --hill-mid: #22302a;
-  --hill-near: #151e19;
-  --wall: #2a2520;
-  --window: #ffc46b;
-  --window-glow: 1;
-  --grain-opacity: 0.18;
-  --banner-bg: #22302a;
+  --bg: #031211;
+  --bg-alt: #041816;
+  --surface: #06201d;
+  --ink: #e8e4d3;
+  --muted: #9db3ad;
+  --rule: #0f2f2c;
+  --primary: #00aebb;
+  --on-primary: #031211;
+  --accent: #00aebb;
+  --focus: #00aebb;
+  --selection: rgb(0 174 187 / 0.3);
+
+  --nav-bg: rgb(6 32 29 / 0.92);
+  --nav-shadow: 0 0 0 1px #0f2f2c, 0 18px 40px -26px rgb(0 0 0 / 0.9);
+  --btn-bg: #e8e4d3;
+  --btn-ink: #031211;
+  --card-bg: #06201d;
+  --card-shadow: 0 0 0 1px #0f2f2c, 0 30px 60px -40px rgb(0 0 0 / 0.9);
+  --shot-shadow: 0 0 0 1px rgb(232 228 211 / 0.1), 0 24px 60px -24px rgb(0 0 0 / 0.9);
+  --tile-bg: #08302c;
+  --tile-ink: #00aebb;
+  --tile-shadow: 0 0 0 1px rgb(0 174 187 / 0.25);
+  --tag-ink: #00aebb;
+  --tag-line: rgb(0 174 187 / 0.55);
+  --chip-line: rgb(0 174 187 / 0.3);
+  --dot: #00aebb;
+  --dither: #0e6b67;
+  --lamp-glow: rgb(0 174 187 / 0.3);
+
+  --hero-bg: radial-gradient(ellipse 70% 60% at 50% 100%, #0a3b37 0%, rgb(3 18 17 / 0) 70%), #031211;
+  --highlight: #00aebb;
+  --ridge-far: #0a2b28;
+  --ridge-mid: #061f1d;
+  --ridge-near: #020b0a;
+
+  --pixel-sky: #0e6b67;
+  --pixel-sun: #e8e4d3;
+  --pixel-tree: #031211;
+  --pixel-window: #00aebb;
+
+  --band-bg: radial-gradient(ellipse 80% 90% at 50% 110%, #0a3b37 0%, rgb(6 32 29 / 0) 70%), #06201d;
+  --band-ink: #e8e4d3;
+  --band-muted: #9db3ad;
+  --band-btn-bg: #e8e4d3;
+  --band-btn-ink: #031211;
+  --band-pines: #020b0a;
+
   color-scheme: dark;
 }

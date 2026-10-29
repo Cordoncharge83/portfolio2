@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { alegreya, alegreyaSC, caveat, fraunces } from "./fonts";
+import { instrumentSans, instrumentSansItalic, pixelify, silkscreen } from "./fonts";
 import { baseOpenGraph, site } from "@/lib/site";
 import { profile } from "@/content/profile";
 import { ThemeScript } from "@/components/site/ThemeScript";
@@ -22,18 +22,16 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4ecdd" },
-    { media: "(prefers-color-scheme: dark)", color: "#141b17" },
+    { media: "(prefers-color-scheme: light)", color: "#f9ebd7" },
+    { media: "(prefers-color-scheme: dark)", color: "#031211" },
   ],
 };
 
+const fontVariables = [pixelify, instrumentSans, instrumentSansItalic, silkscreen].map((f) => f.variable).join(" ");
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${fraunces.variable} ${alegreya.variable} ${alegreyaSC.variable} ${caveat.variable}`}
-    >
+    <html lang="en" suppressHydrationWarning className={fontVariables}>
       <head>
         <ThemeScript />
       </head>
@@ -41,7 +39,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <div className="wrap">
+        {/* The header floats over the first block of each page. */}
+        <div className="page">
           <SiteHeader />
           <main id="main">{children}</main>
           <SiteFooter />

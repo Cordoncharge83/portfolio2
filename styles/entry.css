@@ -1,0 +1,457 @@
+/* Case-study and experience pages (header, screenshot, prose, at a glance, gallery, prev/next) and the 404 page. */
+
+/* ---------- header: full-bleed, starts behind the floating nav ---------- */
+.case-head {
+  /* By day the warm gradient fades back into the page; at night the glow runs to the edge. */
+  --case-fade: linear-gradient(to bottom, transparent 80%, var(--bg));
+  position: relative;
+  isolation: isolate;
+  padding-block: calc(var(--nav-space) + 56px) 40px;
+  background: var(--case-fade), var(--hero-bg);
+}
+:root[data-theme="dark"] .case-head {
+  --case-fade: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .case-head {
+    --case-fade: none;
+  }
+}
+/* With no screenshot below (experience pages) the night glow fades out instead of stopping at the edge. */
+:root[data-theme="dark"] .case-head-solo {
+  --case-fade: linear-gradient(to bottom, transparent 45%, var(--bg));
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .case-head-solo {
+    --case-fade: linear-gradient(to bottom, transparent 45%, var(--bg));
+  }
+}
+.case-head-in {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+}
+/* Padded to a 24px target; the negative margin keeps the 12px label's spacing. */
+.case-back {
+  padding-block: 6px;
+  margin-block: -6px;
+  line-height: 1;
+  color: var(--primary);
+  text-decoration: none;
+}
+.case-back:hover {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 3px;
+}
+.case-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.case-kicker {
+  line-height: 1.4;
+  color: var(--muted);
+}
+.case-head h1 {
+  max-width: 100%;
+  font-size: clamp(33.6px, 5.6vw, 72.8px);
+  /* a long one-word title never pushes the page sideways on a small phone */
+  overflow-wrap: break-word;
+}
+.case-tagline {
+  max-width: 48ch;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.case-actions {
+  margin-top: 6px;
+}
+
+/* ---------- the screenshot, with a dithered bottom edge (.dither-edge-lg, no solid strip) ---------- */
+.case-shot {
+  --dither-strip: 0px;
+  border-radius: 16px;
+  box-shadow: var(--shot-shadow);
+}
+.case-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* No screenshot yet: a wide panel holding the .media-placeholder. */
+.case-shot.is-illustration {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 21 / 8;
+  background: var(--surface);
+}
+
+/* ---------- write-up beside the at-a-glance card ---------- */
+.case-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 50px;
+  align-items: start;
+  padding-block: 56px 30px;
+}
+.case-main {
+  min-width: 0;
+}
+
+.draft-note {
+  margin-bottom: 28px;
+  padding: 12px 18px;
+  border-left: 4px solid var(--accent);
+  border-radius: 0 12px 12px 0;
+  background: var(--surface);
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Long-form text rendered from Markdown. */
+.prose {
+  max-width: 66ch;
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-wrap: break-word;
+}
+.prose h2 {
+  margin: 38px 0 10px;
+  font-size: 22.4px;
+}
+.prose h3 {
+  margin: 28px 0 8px;
+  font-size: 18.2px;
+}
+.prose > :first-child {
+  margin-top: 0;
+}
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote,
+.prose pre {
+  margin: 0 0 14px;
+}
+.prose > :last-child {
+  margin-bottom: 0;
+}
+.prose ul,
+.prose ol {
+  display: grid;
+  gap: 8px;
+  padding-left: 1.3em;
+}
+.prose ul {
+  list-style: square;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li::marker {
+  color: var(--primary);
+}
+.prose li > p {
+  margin: 0;
+}
+.prose li > :is(ul, ol) {
+  margin: 8px 0 0;
+}
+.prose strong {
+  font-weight: 600;
+}
+.prose em {
+  font-style: italic;
+}
+.prose code {
+  padding: 0.1em 0.35em;
+  border-radius: 5px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+.prose pre {
+  overflow-x: auto;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--rule);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.prose pre code {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  font-size: inherit;
+}
+.prose blockquote {
+  padding: 2px 0 2px 18px;
+  border-left: 4px solid var(--accent);
+  color: var(--muted);
+}
+.prose blockquote > :last-child {
+  margin-bottom: 0;
+}
+.prose hr {
+  margin: 32px 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+.prose img {
+  border-radius: 12px;
+}
+
+/* ---------- gallery ("Screens"): spans the whole write-up column ---------- */
+.gallery {
+  margin-top: 38px;
+}
+.gallery h2 {
+  margin-bottom: 18px;
+  font-size: 22.4px;
+}
+.gallery-list {
+  display: grid;
+  gap: 34px;
+}
+.gallery figure {
+  display: grid;
+  gap: 12px;
+}
+.gallery-frame {
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shot-shadow);
+}
+.gallery-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.gallery figcaption {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  max-width: 66ch;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.gallery-num {
+  flex: none;
+  color: var(--primary);
+}
+
+/* ---------- at a glance ---------- */
+.glance {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+/* Sticky only where the whole card fits on screen. */
+@media (min-height: 640px) {
+  .glance {
+    position: sticky;
+    top: 20px;
+  }
+}
+.glance dl {
+  display: grid;
+  gap: 14px;
+}
+.glance dt {
+  margin-bottom: 6px;
+  font-family: var(--font-px);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.125em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+.glance-links {
+  display: grid;
+  justify-items: start;
+  gap: 2px;
+}
+.glance-links .text-link {
+  text-underline-offset: 4px;
+}
+.glance-note {
+  font-size: 15px;
+  color: var(--muted);
+}
+/* Highlights: a short list with pixel-square bullets. */
+.glance-list {
+  display: grid;
+  gap: 6px;
+}
+.glance-list li {
+  position: relative;
+  padding-left: 16px;
+}
+.glance-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  background: var(--dot);
+}
+
+/* ---------- previous / next ---------- */
+.case-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding-block: 26px 40px;
+  border-top: 1px solid var(--rule);
+}
+.case-nav a {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  text-decoration: none;
+}
+.case-nav .px {
+  line-height: 1;
+  color: var(--muted);
+}
+.case-nav-title {
+  font-family: var(--font-display);
+  font-size: 18.2px;
+  font-weight: 600;
+  line-height: 1;
+  overflow-wrap: break-word;
+}
+.case-nav a:hover .case-nav-title {
+  color: var(--primary);
+}
+/* Right-aligned, also when it is the only link or wraps onto its own line. */
+.case-nav .next {
+  margin-left: auto;
+  text-align: right;
+}
+
+/* ---------- 404: a small hero with the scene along the bottom ---------- */
+/* The 404 block fills the screen above the footer, whatever the footer's height. */
+main:has(> .lost) {
+  display: flex;
+  flex-direction: column;
+}
+.lost {
+  flex: 1;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  /* same bottom room as the home hero: past 1240px the scene grows with the width */
+  padding-block: calc(var(--nav-space) + 66px) max(230px, 18.5vw);
+  background: var(--hero-bg);
+}
+.lost-in {
+  position: relative;
+  z-index: 3;
+}
+/*
+ * No stars behind the copy: the two mask layers add up, so stars show wherever either is opaque,
+ * and only the copy column (horizontal layer) crossed with the copy rows (vertical layer) is clear.
+ */
+.lost-sky {
+  --copy-left: max(var(--gutter), 50% - var(--content-width) / 2);
+  --sky-mask:
+    linear-gradient(
+      to right,
+      #000 calc(var(--copy-left) - 40px),
+      #0000 var(--copy-left),
+      #0000 calc(var(--copy-left) + 620px),
+      #000 calc(var(--copy-left) + 680px)
+    ),
+    linear-gradient(
+      to bottom,
+      #000 calc(var(--nav-space) + 20px),
+      #0000 calc(var(--nav-space) + 60px),
+      #0000 calc(var(--nav-space) + 420px),
+      #000 calc(var(--nav-space) + 470px)
+    );
+  -webkit-mask: var(--sky-mask);
+  mask: var(--sky-mask);
+}
+.lost-code {
+  color: var(--primary);
+}
+.lost h1 {
+  /* the width of the home hero's copy column, so the headline breaks the same way */
+  max-width: 600px;
+  margin: 16px 0 18px;
+  font-size: clamp(32.2px, 5.04vw, 67.2px);
+}
+.lost-text {
+  max-width: 44ch;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.lost-actions {
+  margin-top: 28px;
+}
+
+/* ---------- responsive ---------- */
+@media (max-width: 860px) {
+  .case-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+  /* the card comes first on phones, so the facts sit right under the screenshot */
+  .glance {
+    position: static;
+    order: -1;
+  }
+  .lost {
+    padding-bottom: 250px;
+  }
+  /* the copy spans the width: stars above and below it only */
+  .lost-sky {
+    --sky-mask: linear-gradient(
+      to bottom,
+      #000 calc(var(--nav-space) + 20px),
+      #0000 calc(var(--nav-space) + 60px),
+      #0000 calc(var(--nav-space) + 520px),
+      #000 calc(var(--nav-space) + 580px)
+    );
+  }
+}
+@media (max-width: 400px) {
+  /* "CapsuleMonstersGX" still fits on one line on a 360px phone */
+  .case-head h1 {
+    font-size: min(33.6px, 8.4vw);
+  }
+}
+
+@media print {
+  .case-head .starfield {
+    display: none;
+  }
+  .case-head,
+  .lost {
+    padding-top: 24px;
+    background: none;
+  }
+  .glance {
+    position: static;
+  }
+  .case-nav {
+    display: none;
+  }
+}
