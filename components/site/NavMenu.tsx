@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
 /**
- * The "Menu" disclosure that holds the section links at 860px and below, where the bar has no
+ * The "Menu" disclosure that holds the section links at 860px and below (53.75em), where the bar has no
  * room for them. A <details>, so it opens and closes without JavaScript. With JavaScript, Escape,
  * a click outside, tabbing out of it and following one of its links also close it.
  */
@@ -64,7 +64,7 @@ export function NavMenu({ children }: { children: React.ReactNode }) {
             fill="currentColor"
           />
         </svg>
-        Menu
+        <span className="nav-menu-label">Menu</span>
       </summary>
       <div className="nav-menu-panel">{children}</div>
     </details>

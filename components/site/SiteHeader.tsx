@@ -15,7 +15,8 @@ const sections = [
 /**
  * The floating nav bar; it sits over the first block of every page (see --nav-space). Above
  * 860px the section links sit in the bar; at 860px and below they move into the Menu, which
- * also holds the CV button once the bar hides it (480px and below).
+ * also holds the CV button once the bar hides it (540px and below). Both breakpoints are in em, so they
+ * follow the visitor's default text size.
  */
 export function SiteHeader() {
   const villageUrl = site.village.url;

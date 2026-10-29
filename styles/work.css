@@ -78,6 +78,8 @@
 }
 .card h3 {
   font-size: 1.26875rem;
+  /* one-word titles (CapsuleMonstersGX) break rather than widen the card on narrow screens with large text */
+  overflow-wrap: anywhere;
 }
 .card-link {
   text-decoration: none;
@@ -189,6 +191,7 @@
 }
 .minor-item h4 {
   font-size: 0.9625rem;
+  overflow-wrap: anywhere;
 }
 /* context and year: first on screen, after the title in reading order */
 .minor-meta {

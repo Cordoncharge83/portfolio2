@@ -191,7 +191,9 @@
   }
 }
 
-@media (max-width: 860px) {
+/* Breakpoints in em, so the bar changes layout when a larger default text size makes it run out of room
+   (53.75em = 860px and 33.75em = 540px at the default 16px). */
+@media (max-width: 53.75em) {
   .nav-links {
     display: none;
   }
@@ -199,7 +201,7 @@
     display: block;
   }
 }
-@media (max-width: 480px) {
+@media (max-width: 33.75em) {
   .nav-bar {
     gap: 10px;
   }
@@ -210,6 +212,17 @@
     display: flex;
     width: 100%;
     margin-top: 8px;
+  }
+}
+/* Only on the narrowest phones (320px at the default text size, wider with larger text): the Menu shows its icon alone. */
+@media (max-width: 21em) {
+  .nav-menu-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 

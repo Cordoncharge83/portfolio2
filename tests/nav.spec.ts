@@ -96,3 +96,31 @@ test("a new page starts at the top, without scrolling up from the old offset", a
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   expect(await page.evaluate(() => scrollY)).toBe(0);
 });
+
+test.describe("nav bar fits", () => {
+  test.skip(({ isMobile }) => isMobile, "one sweep is enough; it resizes the viewport itself");
+
+  for (const fontSize of [16, 20, 24]) {
+    test(`every item stays inside the bar from 320 to 1300px wide (${fontSize}px default text)`, async ({ page }) => {
+      if (fontSize !== 16) {
+        const cdp = await page.context().newCDPSession(page);
+        await cdp.send("Page.setFontSizes", { fontSizes: { standard: fontSize } });
+      }
+      await page.goto("/");
+      const spills: string[] = [];
+      for (let width = 320; width <= 1300; width += 7) {
+        await page.setViewportSize({ width, height: 800 });
+        const spill = await page.evaluate(() => {
+          const bar = document.querySelector(".nav-bar")!.getBoundingClientRect();
+          const out = [...document.querySelectorAll(".nav-bar > *")].some((el) => {
+            const r = el.getBoundingClientRect();
+            return r.width > 0 && (r.left < bar.left - 0.5 || r.right > bar.right + 0.5);
+          });
+          return out || document.documentElement.scrollWidth > document.documentElement.clientWidth;
+        });
+        if (spill) spills.push(String(width));
+      }
+      expect(spills).toEqual([]);
+    });
+  }
+});

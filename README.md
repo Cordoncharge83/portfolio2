@@ -96,7 +96,7 @@ The Open Graph images use static TTF copies in `assets/fonts` (see `OFL-NOTICE.t
 | `styles/home.css` | Experience, skills and the contact band |
 | `styles/entry.css` | Case-study and experience pages, the 404 page |
 
-The nav bar floats over the top of every page, so each page's first block paints its background behind it and pads its top by `--nav-space`. At 860px and below the section links move into a "Menu" disclosure in the bar (`components/site/NavMenu.tsx`, a `<details>` that works without JavaScript), which also holds the CV button at 480px and below. Section links move keyboard focus to their section (`components/site/SectionLink.tsx`).
+The nav bar floats over the top of every page, so each page's first block paints its background behind it and pads its top by `--nav-space`. At 860px and below the section links move into a "Menu" disclosure in the bar (`components/site/NavMenu.tsx`, a `<details>` that works without JavaScript), which also holds the CV button at 540px and below. These two breakpoints are in em (53.75em and 33.75em), so with a larger default text size the bar switches earlier instead of overflowing. Section links move keyboard focus to their section (`components/site/SectionLink.tsx`).
 
 ### Scene kit
 
