@@ -21,6 +21,8 @@
   padding-inline: 18px;
 }
 .nav-bar {
+  /* the phone menu's panel hangs from the bar's right edge */
+  position: relative;
   display: flex;
   align-items: center;
   gap: 22px;
@@ -39,7 +41,7 @@
   gap: 8px;
   min-height: 24px;
   font-family: var(--font-display);
-  font-size: 19.6px;
+  font-size: 1.225rem;
   font-weight: 700;
   line-height: 1;
   text-decoration: none;
@@ -56,7 +58,7 @@
   gap: 24px;
   margin-inline: auto;
   font-family: var(--font-display);
-  font-size: 17.48px;
+  font-size: 1.0925rem;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.01em;
@@ -92,12 +94,109 @@
   width: 22px;
   height: 22px;
 }
+
+/* ---------- phone menu: the section links behind a "Menu" disclosure (860px and below) ---------- */
+.nav-menu {
+  display: none;
+  flex: none;
+  margin-left: auto;
+}
+.nav-menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 14px 0 12px;
+  /* transparent border: keeps the pill visible in forced-colours mode */
+  border: 2px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 1.0925rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+.nav-menu-btn::-webkit-details-marker {
+  display: none;
+}
+@media (hover: hover) {
+  .nav-menu-btn:hover {
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+}
+/* Open: a tint, not a fill, so it never competes with the CV button (5.1:1 in both themes). */
+.nav-menu[open] > .nav-menu-btn {
+  background: color-mix(in srgb, var(--primary) 14%, var(--card-bg));
+  color: var(--primary);
+}
+.nav-menu-btn svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  shape-rendering: crispEdges;
+}
+.nav-menu[open] .nav-menu-open,
+.nav-menu:not([open]) .nav-menu-close {
+  display: none;
+}
+.nav-menu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: min(260px, 100%);
+  padding: 10px;
+  border-radius: 18px;
+  /* the bar's colour, opaque: the panel sits over page text */
+  background: var(--card-bg);
+  box-shadow: var(--nav-shadow);
+}
+.nav-menu-title {
+  padding: 6px 12px 8px;
+  color: var(--muted);
+}
+.nav-menu-panel ul {
+  display: grid;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-menu-panel li a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-size: 1.0925rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+.nav-menu-panel li a:hover {
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--primary);
+}
+/* In the bar until 480px; in the menu below that. */
+.nav-menu-cv {
+  display: none;
+}
+@media (forced-colors: active) {
+  .nav-menu-panel {
+    border: 1px solid CanvasText;
+  }
+}
+
 @media (max-width: 860px) {
   .nav-links {
     display: none;
   }
-  .nav-cv {
-    margin-left: auto;
+  .nav-menu {
+    display: block;
   }
 }
 @media (max-width: 480px) {
@@ -107,8 +206,10 @@
   .nav-cv {
     display: none;
   }
-  .theme-toggle {
-    margin-left: auto;
+  .nav-menu-cv {
+    display: flex;
+    width: 100%;
+    margin-top: 8px;
   }
 }
 
@@ -131,7 +232,8 @@
     position: static;
   }
   .theme-toggle,
-  .nav-cv {
+  .nav-cv,
+  .nav-menu {
     display: none;
   }
 }

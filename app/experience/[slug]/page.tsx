@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getJournal, getJournalEntry, journalKindLabel } from "@/lib/content";
+import { getJournal, getJournalEntry, journalKindLabel, metaLabel } from "@/lib/content";
 import { EntryLayout } from "@/components/entry/EntryLayout";
 import { Tags } from "@/components/ui/Tags";
 import { baseOpenGraph } from "@/lib/site";
@@ -41,7 +41,7 @@ export default async function ExperiencePage({ params }: PageProps<"/experience/
     <EntryLayout
       back={{ href: "/#experience", label: "All experience" }}
       navLabel="More experience"
-      kicker={`${journalKindLabel[entry.kind]} · ${entry.period.label}`}
+      kicker={metaLabel(journalKindLabel[entry.kind], entry.period.label)}
       title={entry.org}
       tagline={entry.role}
       sections={entry.sections}

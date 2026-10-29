@@ -17,7 +17,7 @@ export default function NotFound() {
           The page you were looking for doesn&apos;t exist, or it moved. The way back to the village square is below.
         </p>
         <div className="lost-actions">
-          <Link className="btn" href="/">
+          <Link className="btn" href="/" prefetch={false}>
             Back to the home page
           </Link>
         </div>

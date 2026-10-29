@@ -52,7 +52,7 @@
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-sans);
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
@@ -75,8 +75,10 @@
   :is(h1, h2, h3, h4, h5, h6) :is(em, i) {
     font-style: normal;
   }
+  /* Tailwind's preflight removes the underline; links in running text get it back. */
   a {
     color: inherit;
+    text-decoration-line: underline;
     text-decoration-color: var(--accent);
     text-decoration-thickness: 2px;
     text-underline-offset: 4px;

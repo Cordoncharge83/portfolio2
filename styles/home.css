@@ -21,7 +21,7 @@
 }
 .xp-item h3 {
   grid-area: title;
-  font-size: clamp(19.6px, 2.38vw, 26.6px);
+  font-size: clamp(1.225rem, 2.38vw, 1.6625rem);
 }
 .xp-link {
   /* inline padding grows the link's box to a 24px target without moving the text */
@@ -66,7 +66,7 @@
   padding: 22px 24px;
 }
 .pair-card h3 {
-  font-size: 18.2px;
+  font-size: 1.1375rem;
 }
 .pair-link {
   padding-block: 2px;
@@ -95,7 +95,7 @@
 }
 .pair-summary {
   color: var(--muted);
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 /* ---------- skills ---------- */
@@ -106,13 +106,13 @@
 }
 .skill-group h3 {
   margin-bottom: 8px;
-  font-size: 18.2px;
+  font-size: 1.1375rem;
 }
 .skill-group p {
   max-width: 54ch;
   margin-bottom: 12px;
   color: var(--muted);
-  font-size: 15.5px;
+  font-size: 0.96875rem;
 }
 /* Spoken languages with their levels, then the "also" row in the same, quieter style. */
 .langs,
@@ -156,7 +156,8 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding-block: 84px 170px;
+  /* room for the pines, which grow with the width like the hero scene */
+  padding-block: 84px max(170px, calc(10.834vw + 40px));
   background: var(--band-bg);
   color: var(--band-ink);
 }
@@ -170,7 +171,7 @@
 }
 .band h2 {
   margin: 12px 0 14px;
-  font-size: clamp(32.2px, 4.9vw, 61.6px);
+  font-size: clamp(2.0125rem, 4.9vw, 3.85rem);
 }
 .band-lede {
   max-width: 48ch;
@@ -183,7 +184,7 @@
   padding-block: 4px 2px;
   border-bottom: 2px solid currentColor;
   font-family: var(--font-display);
-  font-size: clamp(16.8px, 2.1vw, 23.8px);
+  font-size: clamp(1.05rem, 2.1vw, 1.4875rem);
   font-weight: 600;
   line-height: 1;
   text-decoration: none;

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getFeaturedProjects, getProject } from "@/lib/content";
+import { getFeaturedProjects, getProject, metaLabel } from "@/lib/content";
 import { EntryLayout } from "@/components/entry/EntryLayout";
 import { ProjectMedia } from "@/components/entry/ProjectMedia";
 import { Tags } from "@/components/ui/Tags";
@@ -45,7 +45,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
       back={{ href: "/#work", label: "All work" }}
       navLabel="More projects"
       status={project.status}
-      kicker={`${project.contextLabel} · ${project.period.label}`}
+      kicker={metaLabel(project.contextLabel, project.period.label)}
       title={project.title}
       tagline={project.tagline}
       liveUrl={project.liveUrl}

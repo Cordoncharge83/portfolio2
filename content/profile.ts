@@ -11,6 +11,10 @@ export const profile = {
   /** Rendered as Markdown inline; *emphasis* marks the highlighted words. */
   headline: "AI products, solid backends & *small worlds*",
   lede: "Software engineering graduate of IMT Atlantique. I built a retrieval-augmented assistant at La Banque Postale, maintained a 200,000-line healthcare system at Sopra Steria, and ship my own products on Cloudflare.",
+  /** The home page's Open Graph image: the headline as plain text, under the name. */
+  ogSubtitle: "AI products, solid backends and small worlds.",
+  /** Project slugs whose covers sit beside the headline: [back, front]. Each needs a `cover`. */
+  heroShots: ["comp-atlas", "smosh-story-finder"] as [string, string],
   /** The hero's "Now" strip: the main line depends on whether the village game is published. */
   now: {
     soon: "Building the village, a playable version of this portfolio.",
@@ -29,6 +33,8 @@ export const profile = {
   /** Fill these in to show them; null values are hidden. */
   email: "contact@moudka.com" as string | null,
   cvUrl: "/cv.pdf" as string | null,
+  /** File name the CV is saved under. */
+  cvFileName: "Mouadh-Bondka-CV.pdf",
   socials: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/mouadh-bondka-57870a28a/" },
     { label: "GitHub", href: "https://github.com/Cordoncharge83" },

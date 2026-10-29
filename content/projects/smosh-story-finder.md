@@ -10,7 +10,7 @@ status: live
 liveUrl: https://smosh-story-finder.moudka.com
 order: 1
 summary: "A searchable archive where a story, not a video, is the unit of data: filter by guest, title or subreddit and land on the exact timestamp in the episode."
-stack: [React, TypeScript, Vite, Motion, Radix UI, Python, YouTube Data API v3, GitHub Actions, Cloudflare Pages & Pages Functions]
+stack: [React, TypeScript, Vite, Motion, Radix UI, Python, YouTube Data API v3, GitHub Actions, Cloudflare Pages, Pages Functions]
 links:
   - { kind: live, label: Live site, href: "https://smosh-story-finder.moudka.com" }
   - { kind: writeup, label: "Technical write-up (Hashnode)", href: "https://smosh-stories-finder-tech.hashnode.dev" }

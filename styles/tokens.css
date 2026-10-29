@@ -1,7 +1,8 @@
 /*
  * Theme tokens. Day = Warm Ivory, Emerald and Vermillion; Night = Ink Black, Warm Ivory and
  * Electric Teal. Bare :root holds the day palette; the two night blocks redefine tokens only,
- * so the system preference and an explicit data-theme both work.
+ * so the system preference and an explicit data-theme both work. Both are screen-only, so a
+ * printout always uses the day palette.
  *
  * Contrast (WCAG AA) is checked for every text pair defined here. --accent and --highlight are
  * Vermillion by day (3.5:1 on --bg): use them for large text (24px+, or 18.7px+ bold), the sun,
@@ -70,7 +71,8 @@
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
+/* Night is for screens only: print always uses the day palette (dark text on paper). */
+@media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #031211; /* Ink Black */
     --bg-alt: #041816;
@@ -123,53 +125,55 @@
   }
 }
 
-:root[data-theme="dark"] {
-  --bg: #031211;
-  --bg-alt: #041816;
-  --surface: #06201d;
-  --ink: #e8e4d3;
-  --muted: #9db3ad;
-  --rule: #0f2f2c;
-  --primary: #00aebb;
-  --on-primary: #031211;
-  --accent: #00aebb;
-  --focus: #00aebb;
-  --selection: rgb(0 174 187 / 0.3);
+@media screen {
+  :root[data-theme="dark"] {
+    --bg: #031211;
+    --bg-alt: #041816;
+    --surface: #06201d;
+    --ink: #e8e4d3;
+    --muted: #9db3ad;
+    --rule: #0f2f2c;
+    --primary: #00aebb;
+    --on-primary: #031211;
+    --accent: #00aebb;
+    --focus: #00aebb;
+    --selection: rgb(0 174 187 / 0.3);
 
-  --nav-bg: rgb(6 32 29 / 0.92);
-  --nav-shadow: 0 0 0 1px #0f2f2c, 0 18px 40px -26px rgb(0 0 0 / 0.9);
-  --btn-bg: #e8e4d3;
-  --btn-ink: #031211;
-  --card-bg: #06201d;
-  --card-shadow: 0 0 0 1px #0f2f2c, 0 30px 60px -40px rgb(0 0 0 / 0.9);
-  --shot-shadow: 0 0 0 1px rgb(232 228 211 / 0.1), 0 24px 60px -24px rgb(0 0 0 / 0.9);
-  --tile-bg: #08302c;
-  --tile-ink: #00aebb;
-  --tile-shadow: 0 0 0 1px rgb(0 174 187 / 0.25);
-  --tag-ink: #00aebb;
-  --tag-line: rgb(0 174 187 / 0.55);
-  --chip-line: rgb(0 174 187 / 0.3);
-  --dot: #00aebb;
-  --dither: #0e6b67;
-  --lamp-glow: rgb(0 174 187 / 0.3);
+    --nav-bg: rgb(6 32 29 / 0.92);
+    --nav-shadow: 0 0 0 1px #0f2f2c, 0 18px 40px -26px rgb(0 0 0 / 0.9);
+    --btn-bg: #e8e4d3;
+    --btn-ink: #031211;
+    --card-bg: #06201d;
+    --card-shadow: 0 0 0 1px #0f2f2c, 0 30px 60px -40px rgb(0 0 0 / 0.9);
+    --shot-shadow: 0 0 0 1px rgb(232 228 211 / 0.1), 0 24px 60px -24px rgb(0 0 0 / 0.9);
+    --tile-bg: #08302c;
+    --tile-ink: #00aebb;
+    --tile-shadow: 0 0 0 1px rgb(0 174 187 / 0.25);
+    --tag-ink: #00aebb;
+    --tag-line: rgb(0 174 187 / 0.55);
+    --chip-line: rgb(0 174 187 / 0.3);
+    --dot: #00aebb;
+    --dither: #0e6b67;
+    --lamp-glow: rgb(0 174 187 / 0.3);
 
-  --hero-bg: radial-gradient(ellipse 70% 60% at 50% 100%, #0a3b37 0%, rgb(3 18 17 / 0) 70%), #031211;
-  --highlight: #00aebb;
-  --ridge-far: #0a2b28;
-  --ridge-mid: #061f1d;
-  --ridge-near: #020b0a;
+    --hero-bg: radial-gradient(ellipse 70% 60% at 50% 100%, #0a3b37 0%, rgb(3 18 17 / 0) 70%), #031211;
+    --highlight: #00aebb;
+    --ridge-far: #0a2b28;
+    --ridge-mid: #061f1d;
+    --ridge-near: #020b0a;
 
-  --pixel-sky: #0e6b67;
-  --pixel-sun: #e8e4d3;
-  --pixel-tree: #031211;
-  --pixel-window: #00aebb;
+    --pixel-sky: #0e6b67;
+    --pixel-sun: #e8e4d3;
+    --pixel-tree: #031211;
+    --pixel-window: #00aebb;
 
-  --band-bg: radial-gradient(ellipse 80% 90% at 50% 110%, #0a3b37 0%, rgb(6 32 29 / 0) 70%), #06201d;
-  --band-ink: #e8e4d3;
-  --band-muted: #9db3ad;
-  --band-btn-bg: #e8e4d3;
-  --band-btn-ink: #031211;
-  --band-pines: #020b0a;
+    --band-bg: radial-gradient(ellipse 80% 90% at 50% 110%, #0a3b37 0%, rgb(6 32 29 / 0) 70%), #06201d;
+    --band-ink: #e8e4d3;
+    --band-muted: #9db3ad;
+    --band-btn-bg: #e8e4d3;
+    --band-btn-ink: #031211;
+    --band-pines: #020b0a;
 
-  color-scheme: dark;
+    color-scheme: dark;
+  }
 }

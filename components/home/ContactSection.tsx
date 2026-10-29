@@ -7,7 +7,7 @@ export function ContactSection() {
   const socials = profile.socials.filter((s) => s.href);
 
   return (
-    <section id="contact" className="band" aria-labelledby="contact-title">
+    <section id="contact" className="band" aria-labelledby="contact-title" tabIndex={-1}>
       <Starfield preset="band" className="band-sky" />
       <div className="container band-in">
         <p className="px band-label">Contact</p>
@@ -21,7 +21,7 @@ export function ContactSection() {
         {(profile.cvUrl || socials.length > 0) && (
           <div className="band-btns">
             {profile.cvUrl && (
-              <a className="btn" href={profile.cvUrl} download="Mouadh-Bondka-CV.pdf">
+              <a className="btn" href={profile.cvUrl} download={profile.cvFileName}>
                 Download CV
               </a>
             )}

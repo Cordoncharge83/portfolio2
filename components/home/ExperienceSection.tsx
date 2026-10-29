@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getJournal, journalKindLabel, yearSpan } from "@/lib/content";
+import { getJournal, journalKindLabel, metaLabel, yearSpan } from "@/lib/content";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { Tags } from "@/components/ui/Tags";
 
@@ -10,7 +10,7 @@ export function ExperienceSection() {
   const other = journal.filter((e) => e.kind !== "work");
 
   return (
-    <section id="experience" className="section section-alt" aria-labelledby="experience-title">
+    <section id="experience" className="section section-alt" aria-labelledby="experience-title" tabIndex={-1}>
       <div className="container">
         <SectionHead id="experience-title" eyebrow={yearSpan(journal.map((e) => e.period))} title="Experience" />
         <ol className="xp-list">
@@ -39,9 +39,7 @@ export function ExperienceSection() {
                   </Link>
                 </h3>
                 {/* Shown above the title (CSS order), read after it. */}
-                <p className="px pair-meta">
-                  {journalKindLabel[e.kind]} · {e.period.label}
-                </p>
+                <p className="px pair-meta">{metaLabel(journalKindLabel[e.kind], e.period.label)}</p>
                 <p className="pair-summary">{e.summary}</p>
               </article>
             ))}

@@ -31,7 +31,8 @@ const fontVariables = [pixelify, instrumentSans, instrumentSansItalic, silkscree
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" suppressHydrationWarning className={fontVariables}>
+    // data-scroll-behavior: Next turns smooth scrolling off during route changes, so a new page starts at the top.
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning className={fontVariables}>
       <head>
         <ThemeScript />
       </head>

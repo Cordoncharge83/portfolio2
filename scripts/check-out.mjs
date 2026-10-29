@@ -46,6 +46,12 @@ for (const file of htmlFiles) {
     if (url.startsWith("//")) continue;
     if (!resolves(url)) errors.push(`${path.relative(out, file)}: ${attr}="${url}" does not resolve`);
   }
+  // srcset candidates are built from the file names (lib/images.ts), so check each rendition exists.
+  for (const [, attr, list] of html.matchAll(/\s(srcSet|imageSrcSet)="([^"]*)"/gi)) {
+    for (const url of list.split(",").map((c) => c.trim().split(/\s+/)[0])) {
+      if (url.startsWith("/") && !resolves(url)) errors.push(`${path.relative(out, file)}: ${attr} "${url}" does not resolve`);
+    }
+  }
   if (/\b(TODO|lorem ipsum)\b/i.test(html)) errors.push(`${path.relative(out, file)}: contains placeholder text`);
 }
 

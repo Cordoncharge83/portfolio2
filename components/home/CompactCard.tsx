@@ -1,4 +1,4 @@
-import type { Project } from "@/lib/content";
+import { metaLabel, type Project } from "@/lib/content";
 
 export function CompactCard({ project }: { project: Project }) {
   const repo = project.links.find((l) => l.kind === "repo" && l.href);
@@ -6,9 +6,7 @@ export function CompactCard({ project }: { project: Project }) {
     <article className="minor-item">
       <h4>{project.title}</h4>
       {/* Shown above the title (CSS order), read after it. */}
-      <p className="px minor-meta">
-        {project.contextLabel} · {project.period.label}
-      </p>
+      <p className="px minor-meta">{metaLabel(project.contextLabel, project.period.label)}</p>
       <p className="minor-summary">{project.summary}</p>
       {repo && (
         <a className="text-link" href={repo.href!} rel="noopener">

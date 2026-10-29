@@ -22,9 +22,16 @@ for (const shot of shots) {
       .webp({ quality: 82, effort: 6 })
       .toFile(file);
     console.log(`${file}  ${info.width}x${info.height}  ${Math.round(info.size / 1024)} KB`);
+    if (shot.card) {
+      // The card copy for a native cover (its cardSrc), same framing.
+      const cardFile = path.join(outDir, `${shot.name}-640.webp`);
+      const card = await sharp(input).resize({ width: 640 }).webp({ quality: 80, effort: 6 }).toFile(cardFile);
+      console.log(`${cardFile}  ${card.width}x${card.height}  ${Math.round(card.size / 1024)} KB`);
+    }
     continue;
   }
-  for (const width of [960, 1920]) {
+  // Keep in step with the widths in lib/images.ts.
+  for (const width of [640, 960, 1280, 1920]) {
     const file = path.join(outDir, `${shot.name}-${width}.webp`);
     const info = await sharp(input)
       .resize({ width, height: Math.round((width * 9) / 16), fit: "cover", position: "top" })

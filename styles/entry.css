@@ -2,22 +2,17 @@
 
 /* ---------- header: full-bleed, starts behind the floating nav ---------- */
 .case-head {
-  /* By day the warm gradient fades back into the page; at night the glow runs to the edge. */
+  /*
+   * The gradient fades back into the page: from 80% with a screenshot below,
+   * from 45% at night without one.
+   */
   --case-fade: linear-gradient(to bottom, transparent 80%, var(--bg));
   position: relative;
   isolation: isolate;
   padding-block: calc(var(--nav-space) + 56px) 40px;
   background: var(--case-fade), var(--hero-bg);
 }
-:root[data-theme="dark"] .case-head {
-  --case-fade: none;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .case-head {
-    --case-fade: none;
-  }
-}
-/* With no screenshot below (experience pages) the night glow fades out instead of stopping at the edge. */
+/* With no screenshot below (experience pages) the night glow fades out sooner. */
 :root[data-theme="dark"] .case-head-solo {
   --case-fade: linear-gradient(to bottom, transparent 45%, var(--bg));
 }
@@ -58,18 +53,23 @@
 }
 .case-head h1 {
   max-width: 100%;
-  font-size: clamp(33.6px, 5.6vw, 72.8px);
+  font-size: clamp(2.1rem, 5.6vw, 4.55rem);
   /* a long one-word title never pushes the page sideways on a small phone */
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 .case-tagline {
   max-width: 48ch;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 1.45;
   color: var(--muted);
 }
 .case-actions {
   margin-top: 6px;
+}
+/* "Visit <title>" wraps instead of overflowing when text spacing is increased. */
+.case-actions .btn {
+  white-space: normal;
+  text-align: center;
 }
 
 /* ---------- the screenshot, with a dithered bottom edge (.dither-edge-lg, no solid strip) ---------- */
@@ -78,6 +78,7 @@
   border-radius: 16px;
   box-shadow: var(--shot-shadow);
 }
+.case-shot picture,
 .case-shot img {
   display: block;
   width: 100%;
@@ -109,7 +110,7 @@
   border-left: 4px solid var(--accent);
   border-radius: 0 12px 12px 0;
   background: var(--surface);
-  font-size: 15.5px;
+  font-size: 0.96875rem;
   line-height: 1.55;
   color: var(--muted);
 }
@@ -117,17 +118,17 @@
 /* Long-form text rendered from Markdown. */
 .prose {
   max-width: 66ch;
-  font-size: 17px;
+  font-size: 1.0625rem;
   line-height: 1.7;
   overflow-wrap: break-word;
 }
 .prose h2 {
   margin: 38px 0 10px;
-  font-size: 22.4px;
+  font-size: 1.4rem;
 }
 .prose h3 {
   margin: 28px 0 8px;
-  font-size: 18.2px;
+  font-size: 1.1375rem;
 }
 .prose > :first-child {
   margin-top: 0;
@@ -183,7 +184,7 @@
   border-radius: 12px;
   background: var(--surface);
   box-shadow: inset 0 0 0 1px var(--rule);
-  font-size: 14.5px;
+  font-size: 0.90625rem;
   line-height: 1.6;
 }
 .prose pre code {
@@ -215,7 +216,7 @@
 }
 .gallery h2 {
   margin-bottom: 18px;
-  font-size: 22.4px;
+  font-size: 1.4rem;
 }
 .gallery-list {
   display: grid;
@@ -241,7 +242,7 @@
   align-items: baseline;
   gap: 12px;
   max-width: 66ch;
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--muted);
 }
@@ -255,7 +256,7 @@
   display: grid;
   gap: 16px;
   padding: 22px;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.55;
 }
 /* Sticky only where the whole card fits on screen. */
@@ -272,7 +273,7 @@
 .glance dt {
   margin-bottom: 6px;
   font-family: var(--font-px);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0.125em;
@@ -288,7 +289,7 @@
   text-underline-offset: 4px;
 }
 .glance-note {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--muted);
 }
 /* Highlights: a short list with pixel-square bullets. */
@@ -331,7 +332,7 @@
 }
 .case-nav-title {
   font-family: var(--font-display);
-  font-size: 18.2px;
+  font-size: 1.1375rem;
   font-weight: 600;
   line-height: 1;
   overflow-wrap: break-word;
@@ -395,11 +396,11 @@ main:has(> .lost) {
   /* the width of the home hero's copy column, so the headline breaks the same way */
   max-width: 600px;
   margin: 16px 0 18px;
-  font-size: clamp(32.2px, 5.04vw, 67.2px);
+  font-size: clamp(2.0125rem, 5.04vw, 4.2rem);
 }
 .lost-text {
   max-width: 44ch;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.55;
   color: var(--muted);
 }
@@ -435,7 +436,7 @@ main:has(> .lost) {
 @media (max-width: 400px) {
   /* "CapsuleMonstersGX" still fits on one line on a 360px phone */
   .case-head h1 {
-    font-size: min(33.6px, 8.4vw);
+    font-size: min(2.1rem, 8.4vw);
   }
 }
 

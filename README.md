@@ -27,7 +27,7 @@ Everything visitors read lives in `content/`:
   - `tier: featured` gets a card and a `/projects/<slug>` page.
   - `tier: compact` gets a small card under "Smaller and earlier projects".
 - `content/journal/<slug>.md`: experience, education and leadership (`kind: work | education | leadership`), each with its own `/experience/<slug>` page.
-- `content/profile.ts`: headline, intro, the Now strip, the village card, email, CV link, socials.
+- `content/profile.ts`: headline, intro, the hero's two screenshots (`heroShots`), the Now strip, the village card, email, CV link and file name, socials, and the home page's Open Graph subtitle.
 - `content/skills.ts`: skill groups, languages and other tools.
 
 `lib/content.ts` validates the frontmatter at build time with zod, so a typo fails the build and names the file and field.
@@ -46,8 +46,8 @@ To add real screenshots:
 
 1. Capture at 1280×720 @2x.
 2. Add each one to `scripts/shots.config.json`.
-3. Run `node scripts/optimize-shots.mjs <rawDir>`, which writes `public/shots/<slug>/<name>-{960,1920}.webp`.
-4. Reference the files from the entry's `cover` / `gallery`.
+3. Run `node scripts/optimize-shots.mjs <rawDir>`, which writes `public/shots/<slug>/<name>-{640,960,1280,1920}.webp`. A `"native": true` shot keeps its own framing and size as `<name>.webp`; add `"card": true` when it is a cover, to also get a 640px card copy, `<name>-640.webp`.
+4. Reference the files from the entry's `cover` / `gallery`: the `-1920` file as `src`, the `-960` file as `cardSrc` (a native cover's `-640` copy). Pages build their `srcset` from those names (`lib/images.ts`); cards and the home hero stop at 960.
 
 Night variants (`darkSrc`, `darkCardSrc`) are shown automatically in the night theme.
 
@@ -66,7 +66,10 @@ Night variants (`darkSrc`, `darkCardSrc`) are shown automatically in the night t
 - **Night** (the dark theme): Ink Black `#031211` background, Warm Ivory `#E8E4D3` text, Electric Teal `#00AEBB` for accents, with stars and the moon.
 - All tokens live in `styles/tokens.css`. Bare `:root` holds day; night applies via `prefers-color-scheme` or `data-theme="dark"`. Vermillion is only 3.5:1 on the background, so it is used for large text and decoration only (see the comment at the top of the file).
 - The OS preference applies by default. The sun/moon button stores an explicit choice in `localStorage` (`theme`: `"light"` or `"dark"`), and `components/site/ThemeScript.tsx` applies it as `data-theme` on `<html>` before first paint. The toggle clears the stored choice when it matches the OS again.
+- ThemeScript also points the browser's `theme-color` and the night screenshots at an explicit choice, and keeps them in step after client-side navigations.
 - Tailwind's `dark:` variant covers both cases (see `app/globals.css`), and so do the `.day-only` / `.night-only` classes in `styles/base.css`.
+- Eager screenshots with a night variant (the home hero, the case-study screenshot) are a `<picture>` with a dark `<source>` (`components/ui/NightSource.tsx`), so only the visible variant downloads. Lazy pairs (cards, gallery) use `.day-only` / `.night-only`.
+- Night is screen-only: printing always uses the day palette.
 
 ### Fonts
 
@@ -75,6 +78,8 @@ All three are self-hosted through `next/font` (`app/fonts.ts`), Latin subset:
 - **Pixelify Sans**: headings, the wordmark, menu links and buttons.
 - **Instrument Sans**: running text.
 - **Silkscreen**: the small pixel labels (eyebrows, tags, dates, filters, footer), 12px uppercase.
+
+Font sizes are set in `rem` (1rem = 16px by default), so they follow the visitor's default text size in the browser settings.
 
 The Open Graph images use static TTF copies in `assets/fonts` (see `OFL-NOTICE.txt`).
 
@@ -85,13 +90,13 @@ The Open Graph images use static TTF copies in `assets/fonts` (see `OFL-NOTICE.t
 | File | Holds |
 | --- | --- |
 | `styles/base.css` | Layout (`.container`, `.section`), `.px` labels, tags, chips, buttons, links, `.day-only` / `.night-only`, the scene kit |
-| `styles/chrome.css` | The floating nav bar, theme toggle and footer |
+| `styles/chrome.css` | The floating nav bar, the phone menu, theme toggle and footer |
 | `styles/hero.css` | Home hero and the Now strip |
 | `styles/work.css` | Filters, project cards, the village card, smaller projects |
 | `styles/home.css` | Experience, skills and the contact band |
 | `styles/entry.css` | Case-study and experience pages, the 404 page |
 
-The nav bar floats over the top of every page, so each page's first block paints its background behind it and pads its top by `--nav-space`.
+The nav bar floats over the top of every page, so each page's first block paints its background behind it and pads its top by `--nav-space`. At 860px and below the section links move into a "Menu" disclosure in the bar (`components/site/NavMenu.tsx`, a `<details>` that works without JavaScript), which also holds the CV button at 480px and below. Section links move keyboard focus to their section (`components/site/SectionLink.tsx`).
 
 ### Scene kit
 

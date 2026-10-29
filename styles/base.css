@@ -28,6 +28,10 @@
 .section-alt {
   background: var(--bg-alt);
 }
+/* Sections take focus from the nav's section links (SectionLink); the whole section gets no ring. */
+section[tabindex="-1"]:focus {
+  outline: none;
+}
 .sec-head {
   display: grid;
   gap: 10px;
@@ -37,7 +41,7 @@
   color: var(--primary);
 }
 .sec-head h2 {
-  font-size: clamp(26.6px, 3.5vw, 40.6px);
+  font-size: clamp(1.6625rem, 3.5vw, 2.5375rem);
 }
 .sec-head .sec-intro {
   color: var(--muted);
@@ -49,12 +53,19 @@
   background: var(--card-bg);
   box-shadow: var(--card-shadow);
 }
+/* Forced colours drop the shadow and the tag's gradient outline: draw a real border instead. */
+@media (forced-colors: active) {
+  .panel,
+  .tag {
+    border: 1px solid CanvasText;
+  }
+}
 
 /* ---------- type ---------- */
 /* Small pixel labels: eyebrows, tags, dates, filters, footer. */
 .px {
   font-family: var(--font-px);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.125em;
   text-transform: uppercase;
@@ -91,7 +102,7 @@
   gap: 6px;
   padding: 6px 8px;
   font-family: var(--font-px);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0.125em;
@@ -120,7 +131,7 @@
   padding: 4px 11px;
   border: 1px solid var(--chip-line);
   border-radius: 999px;
-  font-size: 13.5px;
+  font-size: 0.84375rem;
   line-height: 1.5;
 }
 
@@ -136,7 +147,7 @@
   border: 2px solid transparent;
   border-radius: 999px;
   font-family: var(--font-display);
-  font-size: 16.56px;
+  font-size: 1.035rem;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.01em;
@@ -170,7 +181,7 @@
   padding-block: 4px 3px;
   border-bottom: 2px solid var(--accent);
   font-family: var(--font-display);
-  font-size: 16.56px;
+  font-size: 1.035rem;
   font-weight: 500;
   line-height: 1;
   letter-spacing: 0.01em;
@@ -192,13 +203,22 @@
   text-decoration-color: currentColor;
 }
 
-/* ---------- theme-driven visibility (same conditions as the `dark:` variant) ---------- */
-:root[data-theme="dark"] .day-only,
+/* ---------- theme-driven visibility (same conditions as the night tokens; print is always day) ---------- */
 :root[data-theme="light"] .night-only {
   display: none !important;
 }
-@media (prefers-color-scheme: dark) {
+@media screen {
+  :root[data-theme="dark"] .day-only {
+    display: none !important;
+  }
+}
+@media screen and (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .day-only {
+    display: none !important;
+  }
+}
+@media print {
+  .night-only {
     display: none !important;
   }
 }
@@ -246,7 +266,8 @@
   right: 0;
   bottom: 0;
   width: 100%;
-  height: 130px;
+  /* 130/1200 of the width past 1200px, so `slice` never crops the tips */
+  height: max(130px, 10.834vw);
   pointer-events: none;
 }
 .pixel-village {
@@ -321,4 +342,18 @@
 .dither-edge-lg::after {
   -webkit-mask: linear-gradient(to top, #000 0%, rgb(0 0 0 / 0.45) 8%, transparent 24%);
   mask: linear-gradient(to top, #000 0%, rgb(0 0 0 / 0.45) 8%, transparent 24%);
+}
+
+@media print {
+  /* the masked overlay prints as an opaque box over the screenshot */
+  .dither-edge::before,
+  .dither-edge::after {
+    display: none;
+  }
+  /* backgrounds are not printed: buttons become outlined, in the text colour */
+  .btn {
+    background: none;
+    color: inherit;
+    border-color: currentColor;
+  }
 }

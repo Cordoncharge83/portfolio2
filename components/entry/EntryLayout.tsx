@@ -62,7 +62,7 @@ export function EntryLayout({
       <header className={hero ? "case-head" : "case-head case-head-solo"}>
         <Starfield preset="header" />
         <div className="container case-head-in">
-          <Link href={back.href} className="px case-back">
+          <Link href={back.href} className="px case-back" prefetch={false}>
             <span aria-hidden="true">&lt; </span>
             {back.label}
           </Link>
@@ -115,7 +115,7 @@ export function EntryLayout({
         <div className="container">
           <nav className="case-nav" aria-label={navLabel}>
             {prev && (
-              <Link href={prev.href} className="prev">
+              <Link href={prev.href} className="prev" prefetch={false}>
                 <span className="px">
                   <span aria-hidden="true">&lt; </span>Previous
                 </span>
@@ -123,7 +123,7 @@ export function EntryLayout({
               </Link>
             )}
             {next && (
-              <Link href={next.href} className="next">
+              <Link href={next.href} className="next" prefetch={false}>
                 <span className="px">
                   Next<span aria-hidden="true"> &gt;</span>
                 </span>

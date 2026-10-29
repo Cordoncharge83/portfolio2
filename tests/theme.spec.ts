@@ -51,10 +51,12 @@ test.describe("theme", () => {
   });
 
   test("reduced motion stops the twinkling stars and the pulsing dot", async ({ page }) => {
+    // The dot's ring pulses on its ::after (transform and opacity only).
     const animations = () =>
-      page.evaluate(() =>
-        [".hero .twinkle", ".now-dot"].map((s) => getComputedStyle(document.querySelector(s)!).animationName),
-      );
+      page.evaluate(() => [
+        getComputedStyle(document.querySelector(".hero .twinkle")!).animationName,
+        getComputedStyle(document.querySelector(".now-dot")!, "::after").animationName,
+      ]);
     await page.emulateMedia({ colorScheme: "dark" });
     await page.goto("/");
     expect(await animations()).toEqual(["twinkle", "now-pulse"]);
@@ -73,4 +75,66 @@ test("an explicit choice also sets the browser theme-color", async ({ page }) =>
   );
   expect(colors.length).toBeGreaterThan(0);
   expect(colors.every(([media, c]) => media === null && c === "#031211")).toBe(true);
+});
+
+/** The theme-color the browser uses: the first meta whose media matches (or has none). */
+const themeColor = (page: import("@playwright/test").Page) =>
+  page.evaluate(
+    () =>
+      [...document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')].find(
+        (m) => !m.media || matchMedia(m.media).matches,
+      )?.content,
+  );
+
+test("an explicit choice keeps the theme-color after a client-side navigation", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  await page.getByRole("button", { name: /switch to night theme/i }).click();
+  await page.locator("#work a.card-link").first().click();
+  await expect(page).toHaveURL(/\/projects\//);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect.poll(() => themeColor(page)).toBe("#031211");
+});
+
+test.describe("night screenshots", () => {
+  test("a night visitor downloads only the night copy of the hero screenshot", async ({ page }) => {
+    const requested: string[] = [];
+    page.on("request", (r) => r.url().includes("/shots/smosh-story-finder/") && requested.push(r.url()));
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.goto("/");
+    await page.waitForLoadState("networkidle");
+    const front = page.locator(".hero-shot-front img");
+    await expect.poll(() => front.evaluate((img: HTMLImageElement) => img.currentSrc)).toMatch(/home-dark-\d+\.webp$/);
+    expect(requested.filter((u) => u.includes("home-light"))).toEqual([]);
+  });
+
+  test("an explicit choice picks the matching screenshot", async ({ page }) => {
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.addInitScript(() => localStorage.setItem("theme", "dark"));
+    await page.goto("/projects/smosh-story-finder");
+    const shot = page.locator(".case-shot img");
+    await expect.poll(() => shot.evaluate((img: HTMLImageElement) => img.currentSrc)).toMatch(/home-dark-\d+\.webp$/);
+    // Back to day with the toggle: the day copy.
+    await page.getByRole("button", { name: /switch to day theme/i }).click();
+    await expect.poll(() => shot.evaluate((img: HTMLImageElement) => img.currentSrc)).toMatch(/home-light-\d+\.webp$/);
+  });
+});
+
+test("print always uses the day palette", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.addInitScript(() => localStorage.setItem("theme", "dark"));
+  await page.goto("/projects/comp-atlas");
+  await page.emulateMedia({ colorScheme: "dark", media: "print" });
+  const ink = await page.evaluate(() => getComputedStyle(document.querySelector("h1")!).color);
+  expect(ink).toBe("rgb(20, 38, 28)"); // --ink by day, #14261c
+  await expect(page.locator(".case-head svg.starfield")).toBeHidden();
+});
+
+test("text follows the browser's default font size", async ({ page }) => {
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send("Page.setFontSizes", { fontSizes: { standard: 24 } });
+  await page.goto("/");
+  expect(await page.evaluate(() => getComputedStyle(document.body).fontSize)).toBe("25.5px"); // 1.0625rem
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  expect(overflow).toBeLessThanOrEqual(0);
 });

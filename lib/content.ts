@@ -206,6 +206,16 @@ export const journalKindLabel: Record<JournalEntry["kind"], string> = {
   leadership: "Leadership",
 };
 
+/**
+ * "Context · period" for the pixel labels. Non-breaking spaces keep a month with its year, "·"
+ * and "–" at the end of a line (never the start), and a one-word period ("2024") with the "·"
+ * before it, so a year is never left alone on a line.
+ */
+export function metaLabel(context: string, period: string): string {
+  const glued = period.replace(/ (\d{4})/g, "\u00a0$1").replace(/ – /g, "\u00a0– ");
+  return `${context}\u00a0·${glued.includes(" ") ? " " : "\u00a0"}${glued}`;
+}
+
 /** "2022–2025": the earliest start year to the latest end (or start) year. */
 export function yearSpan(periods: Period[]): string {
   const year = (date: string) => Number(date.slice(0, 4));

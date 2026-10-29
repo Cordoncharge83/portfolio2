@@ -1,5 +1,5 @@
 {
-  "$comment": "Raw captures -> public/shots/<slug>/. Default: 16:9 crop at 960 and 1920 wide (<name>-{960,1920}.webp). \"native\": true keeps the original framing and size (max 1920 wide) as <name>.webp. Run: node scripts/optimize-shots.mjs <rawDir>",
+  "$comment": "Raw captures -> public/shots/<slug>/. Default: 16:9 crop at 640, 960, 1280 and 1920 wide (<name>-{640,960,1280,1920}.webp). \"native\": true keeps the original framing and size (max 1920 wide) as <name>.webp; add \"card\": true for a native shot used as a cover, which also writes a 640px card copy (<name>-640.webp, its cardSrc). Run: node scripts/optimize-shots.mjs <rawDir>",
   "shots": [
     {
       "slug": "smosh-story-finder",
@@ -65,7 +65,8 @@
       "slug": "duelsync",
       "name": "community-players",
       "raw": "duelsync/community-players.webp",
-      "native": true
+      "native": true,
+      "card": true
     },
     {
       "slug": "duelsync",

@@ -19,6 +19,7 @@ links:
 thumb: bracket
 cover:
   src: /shots/duelsync/community-players.webp
+  cardSrc: /shots/duelsync/community-players-640.webp
   alt: "DuelSync Community Players view: a searchable table of 16 community profiles with tournaments, points and best rank, beside the selected player's tournament history."
   width: 1277
   height: 752

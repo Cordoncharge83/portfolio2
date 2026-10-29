@@ -9,7 +9,7 @@ export const contentType = ogContentType;
 export default function Image() {
   return renderOgImage({
     kicker: profile.roleLine,
-    title: "Mouadh",
-    subtitle: "AI products, solid backends and small worlds.",
+    title: profile.shortName,
+    subtitle: profile.ogSubtitle,
   });
 }

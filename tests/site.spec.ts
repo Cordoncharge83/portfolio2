@@ -30,14 +30,14 @@ test("section links work from a detail page", async ({ page, isMobile }) => {
   await page.goto("/projects/bargainy");
   const sections = page.getByRole("navigation", { name: "Sections" });
   if (isMobile) {
-    // By design, the phone's nav bar holds only the wordmark, the CV button and the theme toggle.
+    // On phones the section links sit behind the Menu button.
     await expect(sections).toBeHidden();
-  } else {
-    await sections.getByRole("link", { name: "Experience" }).click();
-    await expect(page).toHaveURL(/\/#experience$/);
-    await expect(page.locator("#experience")).toBeInViewport();
-    await page.goto("/projects/bargainy");
+    await page.getByRole("banner").locator("summary", { hasText: "Menu" }).click();
   }
+  await sections.getByRole("link", { name: "Experience" }).click();
+  await expect(page).toHaveURL(/\/#experience$/);
+  await expect(page.locator("#experience")).toBeInViewport();
+  await page.goto("/projects/bargainy");
   // The back link above the title leads to the work section on every screen size.
   await page.getByRole("link", { name: "All work" }).click();
   await expect(page).toHaveURL(/\/#work$/);
@@ -84,9 +84,10 @@ test("the CV is served as a PDF, with /cv as a short link", async ({ page, reque
   expect(short.status()).toBe(302);
   expect(short.headers()["location"]).toMatch(/\/cv\.pdf$/);
   await page.goto("/");
-  // In the nav bar (hidden on narrow phones, so hidden links count too) and in the contact band.
+  // In the nav bar and in the phone menu (each hidden on some widths, so hidden links count too), and in the contact band.
   const navCv = page.getByRole("banner").getByRole("link", { name: "Download CV", includeHidden: true });
-  await expect(navCv).toHaveAttribute("href", "/cv.pdf");
+  await expect(navCv).toHaveCount(2);
+  for (const link of await navCv.all()) await expect(link).toHaveAttribute("href", "/cv.pdf");
   const bandCv = page.locator("#contact").getByRole("link", { name: "Download CV" });
   await expect(bandCv).toBeVisible();
   await expect(bandCv).toHaveAttribute("href", "/cv.pdf");

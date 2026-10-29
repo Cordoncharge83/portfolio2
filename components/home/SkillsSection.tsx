@@ -4,7 +4,7 @@ import { Tags } from "@/components/ui/Tags";
 
 export function SkillsSection() {
   return (
-    <section id="skills" className="section" aria-labelledby="skills-title">
+    <section id="skills" className="section" aria-labelledby="skills-title" tabIndex={-1}>
       <div className="container">
         <SectionHead id="skills-title" eyebrow="Stack & tools" title="Skills" />
         <div className="skills-grid">

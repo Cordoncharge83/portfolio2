@@ -1,37 +1,48 @@
 import { getProject, renderInline, type ProjectImage } from "@/lib/content";
+import { cardSrcSetFor } from "@/lib/images";
 import { profile } from "@/content/profile";
 import { HeroScene } from "@/components/scene/HeroScene";
 import { Starfield } from "@/components/scene/Starfield";
+import { NightSource } from "@/components/ui/NightSource";
+
+/* About 450px beside the headline; 80% of the column on phones. */
+const sizes = "(min-width: 861px) 460px, 80vw";
 
 /**
  * One decorative screenshot beside the headline, from a project's cover. Card-sized files, so the
- * home page never loads the 1920px renditions. The light image is eager (it is in the first
- * screen); the night variant is lazy, so the hidden copy is never downloaded by day.
+ * home page never loads the full-size renditions. It is in the first screen, so it is eager: a
+ * night variant is a <picture> source, and only the variant matching the theme is downloaded.
  */
 function Shot({ image, className }: { image: ProjectImage; className: string }) {
   const light = image.cardSrc ?? image.src;
   const dark = image.darkCardSrc ?? image.darkSrc;
-  const size = { width: image.width, height: image.height, decoding: "async" as const };
+  const img = { width: image.width, height: image.height, sizes, decoding: "async" as const };
 
   /* eslint-disable @next/next/no-img-element -- static export: pre-sized WebP files, no optimizer */
   return (
     <div className={`hero-shot ${className}`}>
       {dark ? (
-        <>
-          <img src={light} alt="" {...size} className="day-only" />
-          <img src={dark} alt="" {...size} loading="lazy" className="night-only" />
-        </>
+        <picture>
+          <NightSource srcSet={cardSrcSetFor(dark, image) ?? dark} sizes={sizes} />
+          <img src={light} srcSet={cardSrcSetFor(light, image)} alt="" {...img} />
+        </picture>
       ) : (
-        <img src={light} alt="" {...size} />
+        <img src={light} srcSet={cardSrcSetFor(light, image)} alt="" {...img} />
       )}
     </div>
   );
   /* eslint-enable @next/next/no-img-element */
 }
 
+/** The cover of each project named in profile.heroShots; a missing one fails the build. */
+function heroShot(slug: string): ProjectImage {
+  const cover = getProject(slug)?.cover;
+  if (!cover) throw new Error(`content/profile.ts heroShots: "${slug}" is not a project with a cover`);
+  return cover;
+}
+
 export function Hero() {
-  const back = getProject("comp-atlas")?.cover;
-  const front = getProject("smosh-story-finder")?.cover;
+  const [back, front] = profile.heroShots.map(heroShot);
 
   return (
     <section className="hero" aria-labelledby="hero-title">
@@ -57,8 +68,8 @@ export function Hero() {
         </div>
         {/* Two overlapping screenshots; decoration only, the projects are described below. */}
         <div className="hero-shots" aria-hidden="true">
-          {back && <Shot image={back} className="hero-shot-back" />}
-          {front && <Shot image={front} className="hero-shot-front" />}
+          <Shot image={back} className="hero-shot-back" />
+          <Shot image={front} className="hero-shot-front" />
         </div>
       </div>
     </section>

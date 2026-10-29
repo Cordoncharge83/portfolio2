@@ -21,7 +21,7 @@ export function WorkSection() {
   }));
 
   return (
-    <section id="work" className="section" aria-labelledby="work-title">
+    <section id="work" className="section" aria-labelledby="work-title" tabIndex={-1}>
       <div className="container">
         <SectionHead
           id="work-title"

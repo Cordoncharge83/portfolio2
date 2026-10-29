@@ -55,7 +55,7 @@
 }
 .hero-title {
   margin: 16px 0 18px;
-  font-size: clamp(32.2px, 5.04vw, 67.2px);
+  font-size: clamp(2.0125rem, 5.04vw, 4.2rem);
 }
 /* The highlighted words: a colour, never italic (large text only, see tokens.css). */
 .hero-title em {
@@ -63,7 +63,7 @@
 }
 .hero-lede {
   max-width: 44ch;
-  font-size: 18px;
+  font-size: 1.125rem;
   line-height: 1.55;
   color: var(--muted);
 }
@@ -118,17 +118,26 @@
   color: var(--muted);
 }
 .now-dot {
+  position: relative;
   flex: none;
   width: 9px;
   height: 9px;
   border-radius: 50%;
   background: var(--dot);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--dot) 25%, transparent);
+}
+/* The 4px ring, pulsing with transform and opacity only (no repaint); static under reduced motion. */
+.now-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--dot) 25%, transparent);
   animation: now-pulse 2.4s ease-in-out infinite;
 }
 @keyframes now-pulse {
   50% {
-    box-shadow: 0 0 0 8px color-mix(in srgb, var(--dot) 6%, transparent);
+    transform: scale(1.5);
+    opacity: 0.3;
   }
 }
 .now-main {
@@ -140,7 +149,7 @@
 }
 .now-note {
   margin-left: auto;
-  font-size: 14.5px;
+  font-size: 0.90625rem;
   color: var(--muted);
 }
 
@@ -161,5 +170,22 @@
   }
   .now-note {
     margin-left: 0;
+  }
+}
+
+/* Print: the headline, lede and Now strip start on page 1, without the scene or the screenshots. */
+@media print {
+  .hero {
+    padding-block: 24px;
+    background: none;
+  }
+  .hero-scene,
+  .hero-sky,
+  .hero-shots,
+  .hero .dissolve {
+    display: none;
+  }
+  .hero-in {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
