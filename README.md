@@ -120,7 +120,7 @@ The site is a pure static export, served by Workers static assets. There is no W
    - Deploy command: `npx wrangler deploy`
    - Optionally add `NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_VILLAGE_URL` as build variables.
 4. Deploy and check `portfolio.<account>.workers.dev`. Pull requests get preview URLs.
-5. `wrangler.jsonc` assigns `portfolio.moudka.com/*` to this Worker. The hostname already has a proxied DNS record pointing at the older Pages portfolio; routing serves this new site in front of it. Other hostnames and DNS records are unchanged.
+5. `wrangler.jsonc` assigns `portfolio.moudka.com/*` to this Worker. The hostname uses a proxied AAAA DNS record named `portfolio` with value `100::` and TTL Auto, Cloudflare's placeholder for routes without a real origin. It no longer depends on the older Pages portfolio. Keep the record proxied. Other hostnames and DNS records are unchanged.
 
 ## The village game at `/village`
 
