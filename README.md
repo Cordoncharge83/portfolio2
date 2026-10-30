@@ -53,10 +53,10 @@ Night variants (`darkSrc`, `darkCardSrc`) are shown automatically in the night t
 
 ## Site settings
 
-`lib/site.ts` holds the canonical URL and the game URL. The domains aren't decided yet, so both can be set at build time:
+`lib/site.ts` holds the canonical URL and the game URL. Production uses `https://portfolio.moudka.com`, with the game at `/village/`. Both can be set at build time:
 
 - `NEXT_PUBLIC_SITE_URL` (default `https://portfolio.moudka.com`) is used for canonical links, the sitemap and OG tags.
-- `NEXT_PUBLIC_VILLAGE_URL` is the game. Until it is set, the header link is hidden, the Now strip says the village is being built and its card says "Coming soon"; once set, both link to it. The plan is `/village` (see below); set it only once the game is deployed, otherwise `/village` shows this site's 404 page.
+- `NEXT_PUBLIC_VILLAGE_URL` is the game. Its production build value is `https://portfolio.moudka.com/village/`. Until it is set, the header link is hidden, the Now strip says the village is being built and its card says "Coming soon"; once set, both link to it.
 
 ## Design
 
@@ -121,15 +121,15 @@ The site is a pure static export, served by Workers static assets. There is no W
    - Deploy command: `npx wrangler deploy`
    - Optionally add `NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_VILLAGE_URL` as build variables.
 4. Deploy and check `portfolio.<account>.workers.dev`. Pull requests get preview URLs.
-5. Once the domain is chosen, add it under **Worker → Settings → Domains & Routes → Custom domain**, or add `routes` to `wrangler.jsonc`.
+5. `wrangler.jsonc` assigns `portfolio.moudka.com/*` to this Worker. The hostname already has a proxied DNS record pointing at the older Pages portfolio; routing serves this new site in front of it. Other hostnames and DNS records are unchanged.
 
 ## The village game at `/village`
 
 The game is a separate repo and Worker, mounted on this site's domain under `/village`:
 
 - **Game Worker:** in its `wrangler.jsonc`, a route instead of a custom domain:
-  `"routes": [{ "pattern": "portfolio.moudka.com/village*", "zone_name": "moudka.com" }]`.
-  Routes run before this site's custom domain, so `/village…` reaches the game and everything else reaches the portfolio.
+  `"routes": [{ "pattern": "portfolio.moudka.com/village", "zone_name": "moudka.com" }, { "pattern": "portfolio.moudka.com/village/*", "zone_name": "moudka.com" }]`.
+  These specific routes take precedence over this site's `portfolio.moudka.com/*` route. The game gets `/village/` and its assets; everything else reaches the portfolio. `public/_redirects` also normalizes bare `/village` links (including query strings) to `/village/` while preserving the existing CV redirect.
 - **Game build:** everything must live under `/village/`. Use `base: "/village/"` for Vite, or relative asset paths in an engine's web export. Put the files in a `village/` folder inside the asset directory (e.g. `dist/village/index.html` with `assets.directory: "./dist"`).
 - **This site:** set the build variable `NEXT_PUBLIC_VILLAGE_URL=/village` once the game is live. `check:out` treats `/village` as served elsewhere.
 - **Shared origin:** the game can fetch `/content.json` directly. Both sites share `localStorage`, so prefix the game's keys (e.g. `village:`); the `theme` key is the site's day/night choice, if the game wants to follow it.
