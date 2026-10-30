@@ -53,7 +53,7 @@ const galleryImage = z.object({
   height: z.number().int().positive(),
 });
 
-const thumbKey = z.enum(["search", "chat", "bracket", "ranks", "grid", "vr", "island"]);
+const thumbKey = z.enum(["search", "chat", "bracket", "ranks", "grid", "vr", "island", "village"]);
 
 const projectFrontmatter = z.object({
   slug: z.string().regex(/^[a-z0-9-]+$/),
@@ -113,7 +113,8 @@ export type JournalEntry = z.infer<typeof journalFrontmatter> & { sections: Sect
 const markdown = unified().use(remarkParse).use(remarkRehype).use(rehypeStringify);
 
 export function renderMarkdown(source: string): string {
-  return String(markdown.processSync(source));
+  // Code blocks scroll sideways on narrow screens, so keyboard users must be able to focus them.
+  return String(markdown.processSync(source)).replace(/<pre>/g, '<pre tabindex="0">');
 }
 
 /** Render a one-line Markdown string (e.g. a summary with *emphasis*) without the wrapping <p>. */

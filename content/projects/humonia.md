@@ -8,7 +8,7 @@ contextLabel: IMT intersemester project
 period: { start: "2024-01", label: "2024" }
 status: archived
 liveUrl: null
-order: 7
+order: 8
 summary: "A 2D top-down Godot game made by a team of five during the IMT 2024 intersemester: talk to villagers, collect six items and use a hammer to repair a bridge."
 highlights: ["Team of five, January 2024", "NPC dialogue with Dialogic", "Item collection and bridge repair"]
 takeaway: null

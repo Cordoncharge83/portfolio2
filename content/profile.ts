@@ -23,13 +23,7 @@ export const profile = {
     note: "Comp Atlas is in closed beta." as string | null,
   },
   /** Intro under the "Selected work" heading. */
-  workIntro: "Four products I build and ship myself, a tactical RPG, and the village this site is turning into.",
-  /** The village game's card in the work grid (the game is not a content/projects entry). */
-  village: {
-    title: "The Village",
-    summary:
-      "The same projects and stories as a small woodland village you walk through. Each building opens one of them.",
-  },
+  workIntro: "Four products I build and ship myself, a tactical RPG, and this portfolio as a village you can explore.",
   /** Fill these in to show them; null values are hidden. */
   email: "contact@moudka.com" as string | null,
   cvUrl: "/cv.pdf" as string | null,

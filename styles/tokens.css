@@ -54,11 +54,6 @@
   --star: #e8e4d3;
   --star-hi: #a9dcd5;
 
-  /* pixel-art village */
-  --pixel-sky: #8dbb98;
-  --pixel-sun: #e34222;
-  --pixel-tree: #046a38;
-  --pixel-window: #e34222;
 
   /* contact band */
   --band-bg: #046a38;
@@ -109,10 +104,6 @@
     --ridge-mid: #061f1d;
     --ridge-near: #020b0a;
 
-    --pixel-sky: #0e6b67;
-    --pixel-sun: #e8e4d3;
-    --pixel-tree: #031211;
-    --pixel-window: #00aebb;
 
     --band-bg: radial-gradient(ellipse 80% 90% at 50% 110%, #0a3b37 0%, rgb(6 32 29 / 0) 70%), #06201d;
     --band-ink: #e8e4d3;
@@ -162,10 +153,6 @@
     --ridge-mid: #061f1d;
     --ridge-near: #020b0a;
 
-    --pixel-sky: #0e6b67;
-    --pixel-sun: #e8e4d3;
-    --pixel-tree: #031211;
-    --pixel-window: #00aebb;
 
     --band-bg: radial-gradient(ellipse 80% 90% at 50% 110%, #0a3b37 0%, rgb(6 32 29 / 0) 70%), #06201d;
     --band-ink: #e8e4d3;

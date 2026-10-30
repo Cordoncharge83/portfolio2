@@ -1,4 +1,4 @@
-/* Work section: filters, project cards, the village card and smaller projects. */
+/* Work section: filters, project cards and smaller projects. */
 
 /* ---------- filters ---------- */
 .filters {
@@ -133,7 +133,6 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 6px 18px;
-  /* one line of link text even when empty (the village card before it opens) */
   min-height: calc(1.6em + 6px);
   padding-top: 6px;
   font-size: 1rem;
@@ -151,20 +150,6 @@
   .card:has(.card-link):hover .card-cue {
     text-decoration-color: currentColor;
   }
-}
-
-/* ---------- the village card ---------- */
-.card-art {
-  display: grid;
-  place-items: center;
-  margin-top: 6px;
-  border-radius: 12px;
-  overflow: hidden;
-  background: var(--surface);
-}
-.card-art .pixel-village {
-  width: 288px;
-  max-width: 100%;
 }
 
 /* ---------- smaller and earlier projects ---------- */
@@ -220,16 +205,6 @@
   .cards,
   .minor-list {
     grid-template-columns: 1fr;
-  }
-}
-@media (max-width: 480px) {
-  .card-art .pixel-village {
-    width: 240px;
-  }
-}
-@media (max-width: 400px) {
-  .card-art .pixel-village {
-    width: 192px;
   }
 }
 

@@ -1,6 +1,6 @@
 # Mouadh's portfolio
 
-The classic, quick-read companion to the village game. The same projects and experience are here as plain, scannable pages, with the game's pixel details: a day landscape and a starry night, pixel type for labels, dithered edges and a small pixel-art village.
+The classic, quick-read companion to the village game. The same projects and experience are here as plain, scannable pages, with the game's pixel details: a day landscape and a starry night, pixel type for labels and dithered edges.
 
 Next.js 16 (App Router, static export) · Tailwind CSS 4 · Cloudflare Workers static assets.
 
@@ -27,7 +27,7 @@ Everything visitors read lives in `content/`:
   - `tier: featured` gets a card and a `/projects/<slug>` page.
   - `tier: compact` gets a small card under "Smaller and earlier projects".
 - `content/journal/<slug>.md`: experience, education and leadership (`kind: work | education | leadership`), each with its own `/experience/<slug>` page.
-- `content/profile.ts`: headline, intro, the hero's two screenshots (`heroShots`), the Now strip, the village card, email, CV link and file name, socials, and the home page's Open Graph subtitle.
+- `content/profile.ts`: headline, intro, the hero's two screenshots (`heroShots`), the Now strip, email, CV link and file name, socials, and the home page's Open Graph subtitle.
 - `content/skills.ts`: skill groups, languages and other tools.
 
 `lib/content.ts` validates the frontmatter at build time with zod, so a typo fails the build and names the file and field.
@@ -56,7 +56,7 @@ Night variants (`darkSrc`, `darkCardSrc`) are shown automatically in the night t
 `lib/site.ts` holds the canonical URL and the game URL. Production uses `https://portfolio.moudka.com`, with the game at `/village/`. Both can be set at build time:
 
 - `NEXT_PUBLIC_SITE_URL` (default `https://portfolio.moudka.com`) is used for canonical links, the sitemap and OG tags.
-- `NEXT_PUBLIC_VILLAGE_URL` is the game. Its production build value is `https://portfolio.moudka.com/village/`. Until it is set, the header link is hidden, the Now strip says the village is being built and its card says "Coming soon"; once set, both link to it.
+- `NEXT_PUBLIC_VILLAGE_URL` is the game. Its production build value is `https://portfolio.moudka.com/village/`. Until it is set, the header link is hidden and the Now strip says the village is being built; once set, both link to it. The game's own card and case study come from `content/projects/sleeping-village.md`, like every other project.
 
 ## Design
 
@@ -92,7 +92,7 @@ The Open Graph images use static TTF copies in `assets/fonts` (see `OFL-NOTICE.t
 | `styles/base.css` | Layout (`.container`, `.section`), `.px` labels, tags, chips, buttons, links, `.day-only` / `.night-only`, the scene kit |
 | `styles/chrome.css` | The floating nav bar, the phone menu, theme toggle and footer |
 | `styles/hero.css` | Home hero and the Now strip |
-| `styles/work.css` | Filters, project cards, the village card, smaller projects |
+| `styles/work.css` | Filters, project cards, smaller projects |
 | `styles/home.css` | Experience, skills and the contact band |
 | `styles/entry.css` | Case-study and experience pages, the 404 page |
 
@@ -100,12 +100,11 @@ The nav bar floats over the top of every page, so each page's first block paints
 
 ### Scene kit
 
-The skies, pines and pixel village are generated at build time from a seeded PRNG (`lib/sky.ts`) and rendered by server components in `components/scene/`, so they ship as a few SVG paths and no client JavaScript:
+The skies and pines are generated at build time from a seeded PRNG (`lib/sky.ts`) and rendered by server components in `components/scene/`, so they ship as a few SVG paths and no client JavaScript:
 
 - `Starfield`: a night-only starfield (presets `hero`, `band`, `header`), stars batched into a handful of paths; some twinkle unless reduced motion is on.
 - `HeroScene`: the sun by day, the moon at night, ridges and pines, then a pixel dissolve into the page (home hero and 404).
 - `PinesBand`: the pine silhouette along the bottom of the contact band.
-- `PixelVillage`: the 48 × 27 pixel-art village on the village card.
 
 `lib/og.tsx` reuses the same generators for the Open Graph images.
 

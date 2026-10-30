@@ -8,7 +8,7 @@ contextLabel: IMT Atlantique team project
 period: { start: "2024", label: "2024" }
 status: archived
 liveUrl: null
-order: 6
+order: 7
 summary: "A VR game commissioned by EVOLEN about careers in the energy transition, built in Unity by five to six IMT Atlantique students. I programmed gameplay: movement, interactions, level progression and NPC dialogue."
 highlights: ["Commissioned by EVOLEN", "Gameplay programming", "Dialogue unlocked by player progress"]
 takeaway: null

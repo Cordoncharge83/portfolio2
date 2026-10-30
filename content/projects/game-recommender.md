@@ -8,7 +8,7 @@ contextLabel: Personal project
 period: { start: "2026-01", label: "2026" }
 status: archived
 liveUrl: null
-order: 8
+order: 9
 summary: "Describe the kind of game you want in plain words and get titles ranked by semantic similarity: OpenAI embeddings stored in PostgreSQL with pgvector, a FastAPI REST API and a React interface."
 highlights: ["Embedding pipeline", "pgvector similarity search", "FastAPI + React"]
 stack: [Python, FastAPI, OpenAI embeddings, PostgreSQL, pgvector, React]

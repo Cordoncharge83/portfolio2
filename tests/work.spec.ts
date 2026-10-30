@@ -28,19 +28,22 @@ test("work filter shows one category at a time", async ({ page }) => {
   await expect(visibleItems).toHaveCount(total);
 });
 
-test("the village card is a game: hidden under Software, shown under Games", async ({ page }) => {
+test("the village is a game card with its case study and a link to play it", async ({ page }) => {
   await page.goto("/");
   const work = page.locator("#work");
-  const village = work.locator(".card-village");
+  const village = work.locator(".cards > li", { has: page.getByRole("heading", { name: "The Sleeping Village" }) });
   await expect(village).toBeVisible();
-  await expect(village.getByRole("heading", { level: 3 })).toHaveText("The Village");
-  await expect(village.getByRole("img")).toBeVisible();
+  await expect(village).toHaveAttribute("data-category", "game");
+  await expect(village.getByRole("link", { name: /Play the village/ })).toHaveAttribute("href", /\/village\/$/);
 
   await work.getByRole("button", { name: "Software" }).click();
   await expect(village).toBeHidden();
-
   await work.getByRole("button", { name: "Games" }).click();
   await expect(village).toBeVisible();
+
+  await village.getByRole("link", { name: "The Sleeping Village", exact: true }).click();
+  await expect(page).toHaveURL(/\/projects\/sleeping-village$/);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Sleeping Village");
 });
 
 test("each card links to its case study", async ({ page }) => {

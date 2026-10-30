@@ -5,6 +5,7 @@ export const routes = [
   "/projects/duelsync",
   "/projects/comp-atlas",
   "/projects/capsule-monsters-gx",
+  "/projects/sleeping-village",
   "/experience/sopra-steria",
   "/experience/la-banque-postale",
   "/experience/imt-atlantique",

@@ -1,5 +1,5 @@
 /**
- * Deterministic geometry for the night skies, pine silhouettes and the pixel village.
+ * Deterministic geometry for the night skies and pine silhouettes.
  * Runs at build time in server components, so each scene ships as a few SVG paths and no
  * client JavaScript. Generators return path data keyed by colour role: components map the
  * roles to theme tokens, and the Open Graph images can map them to fixed colours.
@@ -179,68 +179,4 @@ export const moonCraters = dot(586, 110, 7) + dot(612, 132, 5) + dot(604, 102, 3
 /** The contact band's pine silhouette in a 1200 x 130 box, standing on an 8px strip. */
 export function bandPines(seed = 7) {
   return pineRow({ seed, from: -10, to: 1220, gap: [18, 34], base: 124, height: [40, 70] }) + "M0 122h1200v8H0Z";
-}
-
-// ---------- pixel village ----------
-
-export type PixelColor = "sky" | "sun" | "tree" | "window";
-
-export const villageSize = { width: 48, height: 27 } as const;
-
-/**
- * The 48 x 27 pixel-art village: a Bayer-dithered sky, the sun or moon, pines, a house with
- * two lit windows. Painted on a grid, then merged into horizontal runs, one path per colour.
- */
-export function pixelVillage(): Record<PixelColor, string> {
-  const { width: W, height: H } = villageSize;
-  const grid: (PixelColor | null)[][] = Array.from({ length: H }, () => Array<PixelColor | null>(W).fill(null));
-  const paint = (x: number, y: number, w: number, h: number, c: PixelColor) => {
-    for (let j = Math.max(0, y); j < Math.min(H, y + h); j++)
-      for (let i = Math.max(0, x); i < Math.min(W, x + w); i++) grid[j][i] = c;
-  };
-
-  // Ordered dither (Bayer 4x4), denser towards the ground.
-  const bayer = [
-    [0, 8, 2, 10],
-    [12, 4, 14, 6],
-    [3, 11, 1, 9],
-    [15, 7, 13, 5],
-  ];
-  for (let y = 0; y < H; y++)
-    for (let x = 0; x < W; x++) if (bayer[y % 4][x % 4] / 16 < 0.08 + 0.7 * (y / H)) paint(x, y, 1, 1, "sky");
-
-  for (let dy = -4; dy <= 4; dy++)
-    for (let dx = -4; dx <= 4; dx++) if (dx * dx + dy * dy <= 17) paint(37 + dx, 7 + dy, 1, 1, "sun");
-
-  const trees = [
-    [4, 9],
-    [9, 12],
-    [14, 8],
-    [22, 10],
-    [42, 11],
-    [46, 8],
-  ];
-  for (const [x, h] of trees)
-    for (let row = 0; row < h; row++) {
-      const half = Math.floor(row / 2.4);
-      paint(x - half, H - 2 - h + row, half * 2 + 1, 1, "tree");
-    }
-  paint(0, H - 2, W, 2, "tree"); // ground
-  paint(28, 19, 8, 6, "tree"); // house
-  for (let r = 0; r < 4; r++) paint(27 + r, 18 - r, 10 - r * 2, 1, "tree"); // roof
-  paint(30, 21, 2, 2, "window");
-  paint(33, 21, 2, 2, "window");
-
-  const paths: Record<PixelColor, string> = { sky: "", sun: "", tree: "", window: "" };
-  for (let y = 0; y < H; y++) {
-    let x = 0;
-    while (x < W) {
-      const c = grid[y][x];
-      let end = x + 1;
-      while (end < W && grid[y][end] === c) end++;
-      if (c) paths[c] += `M${x} ${y}h${end - x}v1h-${end - x}z`;
-      x = end;
-    }
-  }
-  return paths;
 }

@@ -85,6 +85,19 @@
       "name": "battle",
       "raw": "capsule-monsters-gx/battle.png",
       "native": true
+    },
+    {
+      "slug": "sleeping-village",
+      "name": "entrance",
+      "raw": "sleeping-village/entrance.png",
+      "native": true,
+      "card": true
+    },
+    {
+      "slug": "sleeping-village",
+      "name": "journal-story",
+      "raw": "sleeping-village/journal-story.png",
+      "native": true
     }
   ]
 }

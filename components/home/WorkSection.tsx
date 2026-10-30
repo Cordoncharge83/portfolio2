@@ -3,17 +3,17 @@ import { profile } from "@/content/profile";
 import { SectionHead } from "@/components/ui/SectionHead";
 import { ProjectCard } from "./ProjectCard";
 import { CompactCard } from "./CompactCard";
-import { VillageCard } from "./VillageCard";
 import { FilterableWork, type WorkItem } from "./FilterableWork";
 
 export function WorkSection() {
   const featuredProjects = getFeaturedProjects();
   const compactProjects = getCompactProjects();
 
-  const featured: WorkItem[] = [
-    ...featuredProjects.map((p) => ({ slug: p.slug, category: p.category, node: <ProjectCard project={p} /> })),
-    { slug: "village", category: "game", node: <VillageCard /> },
-  ];
+  const featured: WorkItem[] = featuredProjects.map((p) => ({
+    slug: p.slug,
+    category: p.category,
+    node: <ProjectCard project={p} />,
+  }));
   const compact: WorkItem[] = compactProjects.map((p) => ({
     slug: p.slug,
     category: p.category,

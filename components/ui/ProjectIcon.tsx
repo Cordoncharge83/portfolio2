@@ -1,9 +1,7 @@
 import type { ThumbKey } from "@/lib/content";
 
-export type IconKind = ThumbKey | "village";
-
 /* 32 x 32 line icons for the card tiles, one stroked path each; they take the tile's text colour. */
-const icons: Record<IconKind, { stroke: number; d: string }> = {
+const icons: Record<ThumbKey, { stroke: number; d: string }> = {
   search: { stroke: 2.6, d: "M5 13a8 8 0 1 0 16 0a8 8 0 1 0-16 0M19 19l8 8" },
   chat: { stroke: 2.4, d: "M5 7h16v11H11l-6 5ZM21 12h6v10l-4-3h-8v-1" },
   bracket: { stroke: 2.4, d: "M4 7h6v6H4zM4 19h6v6H4zM10 10h4v12h-4M14 16h5M19 13h7v6h-7z" },
@@ -20,7 +18,7 @@ const icons: Record<IconKind, { stroke: number; d: string }> = {
   village: { stroke: 2.4, d: "M5 16 16 7l11 9M8 14v13h16V14M14 27v-7h4v7" },
 };
 
-export function ProjectIcon({ kind }: { kind: IconKind }) {
+export function ProjectIcon({ kind }: { kind: ThumbKey }) {
   const { stroke, d } = icons[kind];
   return (
     <svg

@@ -270,11 +270,6 @@ section[tabindex="-1"]:focus {
   height: max(130px, 10.834vw);
   pointer-events: none;
 }
-.pixel-village {
-  display: block;
-  width: 100%;
-  height: auto;
-}
 /* Stand-in for a project without a screenshot: its icon on a plain panel, filling the frame. */
 .media-placeholder {
   position: absolute;
