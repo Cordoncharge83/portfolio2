@@ -1,6 +1,6 @@
 ---
-slug: sleeping-village
-title: The Sleeping Village
+slug: woodland-village
+title: The Woodland Village
 tagline: This portfolio as a 3D village you explore on foot
 category: game
 tier: featured
@@ -18,13 +18,13 @@ links:
   - { kind: repo, label: GitHub, href: "https://github.com/Cordoncharge83/sleeping-village" }
 thumb: village
 cover:
-  src: /shots/sleeping-village/entrance.webp
-  cardSrc: /shots/sleeping-village/entrance-640.webp
+  src: /shots/woodland-village/entrance.webp
+  cardSrc: /shots/woodland-village/entrance-640.webp
   alt: "The traveler, a small hooded figure with a satchel, on a dirt path at the woodland entrance: timber cottages with terracotta roofs, birch trees and a 'Welcome, traveler' sign under a dusk sky, with the Journal and Map buttons in the corner."
-  width: 1892
-  height: 855
+  width: 1280
+  height: 720
 gallery:
-  - src: /shots/sleeping-village/journal-story.webp
+  - src: /shots/woodland-village/journal-story.webp
     alt: "The traveler's journal open on Story & Supper: a pinned screenshot of Smosh Story Finder on the left page, and 'Find the story you remember.' with a short description on the right."
     caption: "The journal. Each place discovered in the village opens a project's story; here, Smosh Story Finder in the tavern."
     width: 1280
@@ -35,13 +35,13 @@ gallery:
 
 A portfolio usually asks people to scroll: read an introduction, look through some projects, open a case study, perhaps download a CV. That format works, but I wanted to try something more personal: a small world where visitors discover my work by exploring it.
 
-The Sleeping Village is a browser-based 3D portfolio set in a woodland village at sunset. You guide a traveler through its streets, inspect objects inside buildings and collect project stories in a journal. Smosh Story Finder lives in a tavern, Bargainy has a trading post, Comp Atlas a map lodge and DuelSync a tournament yard. Professional experience belongs in a workshop, while education and skills have their own schoolhouse.
+The Woodland Village is a browser-based 3D portfolio set in a woodland village at sunset. You guide a traveler through its streets, inspect objects inside buildings and collect project stories in a journal. Smosh Story Finder lives in a tavern, Bargainy has a trading post, Comp Atlas a map lodge and DuelSync a tournament yard. Professional experience belongs in a workshop, while education and skills have their own schoolhouse.
 
-## Exploring is optional
+## Two ways to discover the work
 
-The first constraint was that exploring should never be required. Someone curious can walk around and gradually fill the journal; someone looking for a particular project should reach it directly. So the village has a shortcut, **Browse all projects**, which opens every journal entry at once, and this site is its conventional companion.
+The village invites visitors to walk around and gradually fill the journal. Someone looking for a particular project can use this conventional portfolio instead, where every case study is directly accessible.
 
-That shortcut must not count as exploring. Reading every project through a menu should not silently mark every building as discovered or open the garden gate, so the interface separates permission to read an entry from whether the visitor found it in the world.
+Inside the game, journal entries unlock by finding their displays. Discovering all six main entries opens the garden gate to a bonus chapter. The pause menu links back to this site for visitors who prefer a quick read.
 
 ## How it's built
 

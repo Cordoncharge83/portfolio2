@@ -56,7 +56,7 @@ Night variants (`darkSrc`, `darkCardSrc`) are shown automatically in the night t
 `lib/site.ts` holds the canonical URL and the game URL. Production uses `https://portfolio.moudka.com`, with the game at `/village/`. Both can be set at build time:
 
 - `NEXT_PUBLIC_SITE_URL` (default `https://portfolio.moudka.com`) is used for canonical links, the sitemap and OG tags.
-- `NEXT_PUBLIC_VILLAGE_URL` is the game. Its production build value is `https://portfolio.moudka.com/village/`. Until it is set, the header link is hidden and the Now strip says the village is being built; once set, both link to it. The game's own card and case study come from `content/projects/sleeping-village.md`, like every other project.
+- `NEXT_PUBLIC_VILLAGE_URL` is the game. Its production build value is `https://portfolio.moudka.com/village/`. Until it is set, the header link is hidden and the Now strip says the village is being built; once set, both link to it. The game's own card and case study come from `content/projects/woodland-village.md`, like every other project.
 
 ## Design
 

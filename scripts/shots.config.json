@@ -87,16 +87,16 @@
       "native": true
     },
     {
-      "slug": "sleeping-village",
+      "slug": "woodland-village",
       "name": "entrance",
-      "raw": "sleeping-village/entrance.png",
+      "raw": "woodland-village/entrance.png",
       "native": true,
       "card": true
     },
     {
-      "slug": "sleeping-village",
+      "slug": "woodland-village",
       "name": "journal-story",
-      "raw": "sleeping-village/journal-story.png",
+      "raw": "woodland-village/journal-story.png",
       "native": true
     }
   ]
