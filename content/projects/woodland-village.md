@@ -7,7 +7,7 @@ tier: featured
 contextLabel: Personal project
 period: { start: "2026", label: "2026" }
 status: live
-statusNote: "Playable in the browser. Project pages, mobile support and performance testing are still in progress."
+statusNote: "Playable in the browser on desktop and touchscreens. Project pages and performance testing are still in progress."
 liveUrl: https://portfolio.moudka.com/village/
 order: 6
 summary: "This portfolio as a small 3D village at sunset: guide a traveler through its streets, inspect objects inside buildings and collect each project's story in a journal. Built with React Three Fiber and Rapier."
